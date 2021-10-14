@@ -1,0 +1,23 @@
+---
+
+- name: Install NFS client packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ nfs_packages[ansible_os_family] }}"
+
+- name: set selinux bool for using share as home dir
+  seboolean:
+    name: use_nfs_home_dirs
+    state: yes
+    persistent: yes
+  when: nfs_home_dir|bool
+
+- name: Mount NFS shares
+  mount:
+    path: '{{ item.target }}'
+    src: '{{ item.src }}'
+    fstype: nfs
+    opts: '{{ item.options }}'
+    state: mounted
+  loop: "{{ nfs_shares }}"

@@ -1,0 +1,10 @@
+---
+
+nfs_packages:
+  RedHat:
+    - nfs-utils
+  Debian:
+    - nfs-common
+
+nfs_shares: []
+nfs_home_dir: false
