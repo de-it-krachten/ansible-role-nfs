@@ -1,0 +1,9 @@
+---
+
+- name: Restart nfs
+  service:
+    name: "{{ nfs_server_services | first }}"
+    state: restarted
+
+- name: Reload nfs
+  command: exportfs -ra

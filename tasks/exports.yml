@@ -1,0 +1,25 @@
+---
+
+- name: Check for the status of all exports
+  stat:
+    path: "{{ item.path }}"
+  register: _export_paths
+  loop: "{{ nfs_exports }}"
+
+- name: Create all directories to export
+  file:
+    path: "{{ item.item.path }}"
+    state: directory
+  when: not item.stat.exists
+  loop: "{{ _export_paths.results }}"
+  loop_control:
+    label: "{{ item.item.path }}"
+
+- name: Setup all exports
+  lineinfile:
+    path: /etc/exports
+    line: "{{ item.path }} {{ item.clients }}({{ item.options }})"
+    create: yes
+  loop: "{{ nfs_exports }}"
+  notify:
+    - Reload nfs

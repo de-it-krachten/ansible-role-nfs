@@ -1,0 +1,7 @@
+---
+
+- name: Install NFS client packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ nfs_client_packages }}"

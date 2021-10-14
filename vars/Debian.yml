@@ -1,0 +1,18 @@
+---
+
+nfs_server_packages:
+  - nfs-kernel-server
+nfs_server_packages_krb5:
+  - gssproxy
+
+
+nfs_client_packages:
+  - nfs-common
+
+nfs_server_services:
+  - nfs-kernel-server
+nfs_server_services_krb5:
+  #- gssproxy
+  - rpc-gssd
+nfs_client_services_krb5:
+  - rpc-gssd

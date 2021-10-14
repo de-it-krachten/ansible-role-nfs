@@ -1,23 +1,26 @@
 ---
 
-- name: Install NFS client packages
-  package:
-    name: "{{ item }}"
-    state: present
-  loop: "{{ nfs_packages[ansible_os_family] }}"
+- name: Load variables based on OS type
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+        - '{{ ansible_distribution }}.yml'
+        - "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
+        - '{{ ansible_os_family }}.yml'
+        - default.yml
+      paths:
+        - 'vars'
 
-- name: set selinux bool for using share as home dir
-  seboolean:
-    name: use_nfs_home_dirs
-    state: yes
-    persistent: yes
-  when: nfs_home_dir|bool
+- block:
+    - include_tasks: install-server.yml
+    - include_tasks: config-server.yml
+    - include_tasks: exports.yml
+  when: nfs_server
 
-- name: Mount NFS shares
-  mount:
-    path: '{{ item.target }}'
-    src: '{{ item.src }}'
-    fstype: nfs
-    opts: '{{ item.options }}'
-    state: mounted
-  loop: "{{ nfs_shares }}"
+- block:
+    - include_tasks: install-client.yml
+    - include_tasks: config-client.yml
+  when: nfs_client
+

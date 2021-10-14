@@ -1,0 +1,33 @@
+---
+
+- name: Start/enable services
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop: "{{ nfs_client_services|default([]) }}"
+
+- name: Start/enable kerberos services
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop: "{{ nfs_client_services_krb5|default([]) }}"
+  when: nfs_krb5|bool
+
+- name: set selinux bool for using share as home dir
+  seboolean:
+    name: use_nfs_home_dirs
+    state: yes
+    persistent: yes
+  when: nfs_home_dir|bool
+
+- name: Mount NFS shares
+  mount:
+    path: '{{ item.target }}'
+    src: '{{ item.src }}'
+    fstype: nfs
+    opts: '{{ item.options }}'
+    state: mounted
+  loop: "{{ nfs_mounts }}"
+

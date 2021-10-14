@@ -1,0 +1,14 @@
+---
+
+- name: Install NFS server packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ nfs_server_packages }}"
+
+- name: Install NFS server with kerberos packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ nfs_server_packages_krb5 }}"
+

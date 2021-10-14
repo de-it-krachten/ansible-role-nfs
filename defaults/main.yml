@@ -1,10 +1,12 @@
 ---
 
-nfs_packages:
-  RedHat:
-    - nfs-utils
-  Debian:
-    - nfs-common
+nfs_server: false
+nfs_client: true
+nfs_krb5: false
 
-nfs_shares: []
+nfs_mounts: []
 nfs_home_dir: false
+
+nfs_server_firewall_ports:
+  - port: '2049'
+    protocol: tcp
