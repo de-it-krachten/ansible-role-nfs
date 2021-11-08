@@ -22,6 +22,22 @@
     persistent: yes
   when: nfs_home_dir|bool
 
+- name: Get stat of all mountpoints
+  stat:
+    path: "{{ item.target }}"
+  loop: "{{ nfs_mounts }}"
+  register: _mp
+
+- name: Ensure mount path exists
+  file:
+    path: "{{ item.item.target }}"
+    state: directory
+  loop: "{{ _mp.results }}"
+  loop_control:
+    label:
+      - "{{ item.item.target }}"
+  when: not item.stat.exists
+
 - name: Mount NFS shares
   mount:
     path: '{{ item.target }}'
@@ -30,4 +46,3 @@
     opts: '{{ item.options }}'
     state: mounted
   loop: "{{ nfs_mounts }}"
-
