@@ -18,7 +18,7 @@
 - name: Setup all exports
   lineinfile:
     path: /etc/exports
-    line: "{{ item.path }} {{ item.clients }}({{ item.options }})"
+    line: "{{ item.path }} {% for client in item.clients %}{{ client }}({{ item.options }}) {% endfor %}"
     create: yes
   loop: "{{ nfs_exports }}"
   notify:
