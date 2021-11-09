@@ -1,0 +1,166 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+platforms:
+  - name: nfs-server-centos7
+    image: "geerlingguy/docker-centos7-ansible:latest"
+    dockerfile: Dockerfile.centos7.j2
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /tmp/nfs:/srv:rw
+    privileged: true
+    pre_build_image: true
+    packages: ['bash']
+  - name: nfs-client-centos7
+    image: "geerlingguy/docker-centos7-ansible:latest"
+    dockerfile: Dockerfile.centos7.j2
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
+    packages: ['bash']
+  - name: nfs-server-centos8
+    image: "geerlingguy/docker-centos8-ansible:latest"
+    dockerfile: Dockerfile.centos8.j2
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /tmp/nfs:/srv:rw
+    privileged: true 
+    pre_build_image: true
+    packages: ['bash']
+  - name: nfs-client-centos8
+    image: "geerlingguy/docker-centos8-ansible:latest"
+    dockerfile: Dockerfile.centos8.j2
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true 
+    pre_build_image: true
+    packages: ['bash']
+#  - name: nfs-server-ubuntu2004
+#    image: "geerlingguy/docker-ubuntu2004-ansible:latest"
+#    dockerfile: Dockerfile.ubuntu2004.j2
+#    command: ${MOLECULE_DOCKER_COMMAND:-""}
+#    volumes:
+#      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+#      - /tmp/nfs:/srv:rw
+#    privileged: true 
+#    pre_build_image: true
+#    packages: ['python3', 'sudo', 'bash', 'ca-certificates', 'iproute2', 'python3-apt', 'aptitude']
+#  - name: nfs-client-ubuntu2004
+#    image: "geerlingguy/docker-ubuntu2004-ansible:latest"
+#    dockerfile: Dockerfile.ubuntu2004.j2
+#    command: ${MOLECULE_DOCKER_COMMAND:-""}
+#    volumes:
+#      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+#    privileged: true 
+#    pre_build_image: true
+#    packages: ['python3', 'sudo', 'bash', 'ca-certificates', 'iproute2', 'python3-apt', 'aptitude']
+#  - name: nfs-server-ubuntu1804
+#    image: "geerlingguy/docker-ubuntu1804-ansible:latest"
+#    dockerfile: Dockerfile.ubuntu1804.j2
+#    command: ${MOLECULE_DOCKER_COMMAND:-""}
+#    volumes:
+#      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+#      - /tmp/nfs:/srv:rw
+#    privileged: true
+#    pre_build_image: true
+#    packages: ['python3', 'sudo', 'bash', 'ca-certificates', 'iproute2', 'python3-apt', 'aptitude']
+#  - name: nfs-client-ubuntu1804
+#    image: "geerlingguy/docker-ubuntu1804-ansible:latest"
+#    dockerfile: Dockerfile.ubuntu1804.j2
+#    command: ${MOLECULE_DOCKER_COMMAND:-""}
+#    volumes:
+#      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+#    privileged: true
+#    pre_build_image: true
+#    packages: ['python3', 'sudo', 'bash', 'ca-certificates', 'iproute2', 'python3-apt', 'aptitude']
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+  playbooks:
+    converge: ${MOLECULE_PLAYBOOK:-playbook.yml}
+  inventory:
+    host_vars:
+      nfs-server-centos7:
+        nfs_v3: true
+        nfs_v4: true
+        nfs_server: true
+        nfs_client: false
+        nfs_exports:
+          - path: /srv
+            clients: "*"
+            options: "rw,sync"
+      nfs-client-centos7:
+        nfs_v3: true
+        nfs_v4: true
+        nfs_mounts:
+          - src: "{{ hostvars['nfs-server-centos7']['ansible_default_ipv4']['address'] }}:/srv"
+            target: /mnt
+            options: vers=3,sync
+      nfs-server-centos8:
+        ansible_python_interpreter: /usr/libexec/platform-python
+        nfs_v3: true
+        nfs_v4: true
+        nfs_server: true
+        nfs_client: false
+        nfs_exports:
+          - path: /srv
+            clients: "*"
+            options: "rw,sync"
+      nfs-client-centos8:
+        ansible_python_interpreter: /usr/libexec/platform-python
+        nfs_v3: true
+        nfs_v4: true
+        nfs_mounts:
+          - src: "{{ hostvars['nfs-server-centos8']['ansible_default_ipv4']['address'] }}:/srv"
+            target: /mnt
+            options: v3,sync 
+      nfs-server-ubuntu1804:
+        nfs_v3: true
+        nfs_v4: true
+        nfs_server: true
+        nfs_client: false
+        nfs_exports:
+          - path: /srv
+            clients: "*"
+            options: "rw,sync"
+      nfs-client-ubuntu1804:
+        nfs_v3: true
+        nfs_v4: true
+        nfs_mounts:
+          - src: "{{ hostvars['nfs-server-ubuntu1804']['ansible_default_ipv4']['address'] }}:/srv"
+            target: /mnt
+            options: v3,sync
+      nfs-server-ubuntu2004:
+        nfs_v3: true
+        nfs_v4: true
+        nfs_server: true
+        nfs_client: false
+        nfs_exports:
+          - path: /srv
+            clients: "*"
+            options: "rw,sync"
+      nfs-client-ubuntu2004:
+        nfs_v3: true
+        nfs_v4: true
+        nfs_mounts:
+          - src: "{{ hostvars['nfs-server-ubuntu2004']['ansible_default_ipv4']['address'] }}:/srv"
+            target: /mnt
+            options: v3,sync 
+scenario:
+  name: default
+verifier:
+  name: testinfra
+  lint:
+    name: flake8

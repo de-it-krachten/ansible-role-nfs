@@ -10,6 +10,7 @@
   file:
     path: "{{ item.item.path }}"
     state: directory
+    mode: "0755"
   when: not item.stat.exists
   loop: "{{ _export_paths.results }}"
   loop_control:
@@ -20,6 +21,10 @@
     path: /etc/exports
     line: "{{ item.path }} {% for client in item.clients %}{{ client }}({{ item.options }}) {% endfor %}"
     create: yes
+    mode: "0644"
   loop: "{{ nfs_exports }}"
   notify:
     - Reload nfs
+
+- name: Flush handler
+  meta: flush_handlers

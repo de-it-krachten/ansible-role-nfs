@@ -1,0 +1,78 @@
+---
+
+- name: Configure NFS v3 to use static ports (mountd)
+  lineinfile:
+    path: /etc/default/nfs-kernel-server
+    regexp: "^{{ item.key }}=.*"
+    line: "{{ item.key }}=\"{{ item.value }}\""
+  when: nfs_v3|bool
+  loop:
+    - key: RPCMOUNTDOPTS
+      value: "--manage-gids -p {{ nfs_mountd_port }}"
+  notify:
+    - Restart nfs-kernel-server
+
+- name: Configure NFS v3 to use static ports (statd)
+  lineinfile:
+    path: /etc/default/nfs-common
+    regexp: "^{{ item.key }}=.*"
+    line: "{{ item.key }}=\"{{ item.value }}\""
+  when: nfs_v3|bool
+  loop:
+    - key: STATDOPTS
+      value: "--port {{ nfs_statd_port }}"
+  notify:
+    - Restart nfs-kernel-server
+
+- name: Configure NFS v3 to use static ports (lockd)
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+  loop:
+    - name: fs.nfs.nlm_tcpport
+      value: "{{ nfs_lockd_port }}"
+    - name: fs.nfs.nlm_udpport
+      value: "{{ nfs_lockd_port }}"
+
+#- name: Configure NFS v3 to use static ports
+#  lineinfile:
+#    path: /etc/modprobe.d/options.conf
+#    regexp: "^options lockd.*"
+#    line: "options lockd nlm_udpport={{ nfs_lockd_port }} nlm_tcpport={{ nfs_lockdd_port }}"
+#  when: nfs_v3|bool
+#  notify:
+#    - Restart nfs
+
+- name: Configure NFS v4 w/ kerberos
+  lineinfile:
+    path: /etc/default/nfs-kernel-server
+    line: "NEED_SVCGSSD={{ 'yes' if nfs_krb5|bool else 'no' }}"
+    regexp: "NEED_SVCGSSD=."
+  notify: Restart nfs-kernel-server
+
+- name: Open firewall ports
+  ufw:
+    rule: allow
+    port: "{{ (item.port|regex_replace('-',':')) if item.port is defined else omit }}"
+    proto: "{{ item.proto if item.proto is defined else omit }}"
+    name: "{{ item.service if item.service is defined else omit }}"
+    state: enabled
+  loop: "{{ nfs_server_firewall_ports }}"
+
+- name: Start/enable services
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop: "{{ nfs_server_services }}"
+
+- name: Start/enable kerberos services
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop: "{{ nfs_server_services_krb5 }}"
+  when: nfs_krb5|bool
+
+- name: Flush handlers
+  meta: flush_handlers

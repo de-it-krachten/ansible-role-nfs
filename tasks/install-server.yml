@@ -11,4 +11,3 @@
     name: "{{ item }}"
     state: present
   loop: "{{ nfs_server_packages_krb5 }}"
-

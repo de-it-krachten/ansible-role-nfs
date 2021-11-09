@@ -1,8 +1,29 @@
 ---
 
-- name: Restart nfs
+- name: Restart nfs-config
   service:
-    name: "{{ nfs_server_services | first }}"
+    name: nfs-config
+    state: restarted
+  when: ansible_distribution_major_version|int == 7
+
+- name: Restart nfs-server
+  service:
+    name: nfs-server
+    state: restarted
+
+- name: Restart nfs-kernel-server
+  service:
+    name: nfs-kernel-server
+    state: restarted
+
+#- name: Restart nfs-config
+#  service:
+#    name: nfs-config
+#    state: restarted
+
+- name: Restart mountd
+  service:
+    name: nfs-mountd
     state: restarted
 
 - name: Reload nfs
