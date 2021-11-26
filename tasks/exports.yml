@@ -20,6 +20,7 @@
   lineinfile:
     path: /etc/exports
     line: "{{ item.path }} {% for client in item.clients %}{{ client }}({{ item.options }}) {% endfor %}"
+    regexp: "^{{ item.path }} .*"
     create: yes
     mode: "0644"
   loop: "{{ nfs_exports }}"
