@@ -3,6 +3,8 @@
 nfs_server: false
 nfs_client: true
 nfs_krb5: false
+nfs_firewall: true
+
 
 nfs_mounts: []
 nfs_home_dir: false
