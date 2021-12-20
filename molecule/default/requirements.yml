@@ -1,6 +1,10 @@
 ---
 
 roles:
+  - name: firewall
+    src: https://github.com/de-it-krachten/ansible-role-firewall.git
+    version: main
+    scm: git
   - name: firewalld
     src: https://github.com/de-it-krachten/ansible-role-firewalld.git
     version: main

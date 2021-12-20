@@ -9,21 +9,12 @@
   when:
     - ansible_os_family == 'Debian'
 
-- name: Open firewall ports (firewalld)
+- name: Open firewall ports
   include_role:
-    name: firewalld
-    tasks_from: rules.yml
+    name: firewall
   vars:
-    firewalld_rules: "{{ nfs_server_firewall_ports }}"
-  when: ansible_os_family == 'RedHat'
-
-- name: Open firewall ports (ufw)
-  include_role:
-    name: ufw
-    tasks_from: rules.yml
-  vars:
-    ufw_rules: "{{ nfs_server_firewall_ports }}"
-  when: ansible_os_family == 'Debian'
+    #firewalld_rules: "{{ nfs_server_firewall_ports }}"
+    firewall_ports: "{{ nfs_server_firewall_ports }}"
 
 - name: Start/enable services
   service:

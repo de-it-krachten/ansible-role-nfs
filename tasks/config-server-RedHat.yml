@@ -39,15 +39,12 @@
     - Restart nfs-config
     - Restart nfs-server
 
-- name: Open firewall ports 
-  firewalld:
-    port: "{{ (item.port+'/'+item.proto) if item.port is defined else omit }}"
-    service: "{{ item.service if item.service is defined else omit }}"
-    immediate: yes
-    permanent: yes
-    zone: public
-    state: enabled
-  loop: "{{ nfs_server_firewall_ports }}"
+- name: Open firewall ports
+  include_role:
+    name: firewall 
+  vars:
+    #firewalld_rules: "{{ nfs_server_firewall_ports }}"
+    firewall_ports: "{{ nfs_server_firewall_ports }}"
   when: nfs_firewall|bool
 
 - name: Start/enable services
