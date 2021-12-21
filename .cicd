@@ -12,12 +12,12 @@ platforms:
     image: centos7
   - name: CentOS 8
     image: centos8
-  - name: Debian 10 (Buster)
-    image: debian10
+#  - name: Debian 10 (Buster)
+#    image: debian10
   - name: Debian 11 (Bullseye)
     image: debian11
-  - name: Ubuntu 18.04 LTS
-    image: ubuntu1804
+#  - name: Ubuntu 18.04 LTS
+#    image: ubuntu1804
   - name: Ubuntu 20.04 LTS
     image: ubuntu2014
 
@@ -37,11 +37,11 @@ galaxy:
         - 8
     - name: Debian
       versions:
-        - buster
+#        - buster
         - bullseye
     - name: Ubuntu
       versions:
-        - 18.04
+#        - 18.04
         - 20.04
 
 # Github
@@ -61,9 +61,9 @@ molecule:
   platforms:
     - centos7
     - centos8
-    - debian10
+#    - debian10
     - debian11
-    - ubuntu1804
+#    - ubuntu1804
     - ubuntu2004
   prepare:
     vars:
