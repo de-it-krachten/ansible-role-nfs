@@ -48,6 +48,7 @@ galaxy:
 github:
   active: true
   self_hosted: false
+  fail_fast: false
   owner: de-it-krachten
   repo: ansible-role-nfs
 
