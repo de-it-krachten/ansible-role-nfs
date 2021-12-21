@@ -1,5 +1,26 @@
----
+[![CI](https://github.com/de-it-krachten/ansible-role-nfs/workflows/CI/badge.svg?event=push)](https://github.com/de-it-krachten/ansible-role-nfs/actions?query=workflow%3ACI)
 
+
+# ansible-role-nfs
+
+Install NFS server/client versions v3/v4
+
+
+Platforms
+--------------
+
+Supported platforms
+
+- CentOS 7
+- CentOS 8
+- Debian 11 (Bullseye)
+- Ubuntu 20.04 LTS
+
+
+
+Role Variables
+--------------
+<pre><code>
 # Install/confire NFS server
 nfs_server: false
 
@@ -15,8 +36,7 @@ nfs_firewall: true
 # List of NFS mount
 nfs_mounts: []
 
-# Enable the use of home directories located on remote NFS exports
-# This will set the appropiate SELinux boolean
+# Use home directories located on remote NFS exports
 nfs_home_dir: false
 
 # NFS implementation(s) to use
@@ -53,3 +73,18 @@ nfs_v3_server_firewall_ports:
 nfs_v4_server_firewall_ports:
   - port: '2049'
     proto: tcp
+</pre></code>
+
+
+Example Playbook
+----------------
+
+<pre><code>
+- name: Converge
+  hosts: all
+  vars: null
+  tasks:
+    - name: Include role 'ansible-role-nfs'
+      include_role:
+        name: ansible-role-nfs
+</pre></code>

@@ -33,6 +33,7 @@
       value: "{{ nfs_lockd_port }}"
     - name: fs.nfs.nlm_udpport
       value: "{{ nfs_lockd_port }}"
+  when: nfs_firewall|bool
 
 #- name: Configure NFS v3 to use static ports
 #  lineinfile:
@@ -51,13 +52,12 @@
   notify: Restart nfs-kernel-server
 
 - name: Open firewall ports
-  ufw:
-    rule: allow
-    port: "{{ (item.port|regex_replace('-',':')) if item.port is defined else omit }}"
-    proto: "{{ item.proto if item.proto is defined else omit }}"
-    name: "{{ item.service if item.service is defined else omit }}"
-    state: enabled
-  loop: "{{ nfs_server_firewall_ports }}"
+  include_role:
+    name: firewall
+  vars:
+    #firewalld_rules: "{{ nfs_server_firewall_ports }}"
+    firewall_ports: "{{ nfs_server_firewall_ports }}"
+  when: nfs_firewall|bool
 
 - name: Start/enable services
   service:

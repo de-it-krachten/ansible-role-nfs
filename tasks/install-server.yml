@@ -11,3 +11,10 @@
     name: "{{ item }}"
     state: present
   loop: "{{ nfs_server_packages_krb5 }}"
+
+- name: Start services
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop: "{{ nfs_server_services }}"
