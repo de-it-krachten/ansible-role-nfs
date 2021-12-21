@@ -2,9 +2,9 @@
 
 nfs_server_packages:
   - nfs-kernel-server
+  - procps
 nfs_server_packages_krb5:
   - gssproxy
-
 
 nfs_client_packages:
   - nfs-common
