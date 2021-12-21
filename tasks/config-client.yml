@@ -20,7 +20,9 @@
     name: use_nfs_home_dirs
     state: yes
     persistent: yes
-  when: nfs_home_dir|bool
+  when:
+    - ansible_os_family == 'RedHat'
+    - nfs_home_dir|bool
 
 - name: Get stat of all mountpoints
   stat:
