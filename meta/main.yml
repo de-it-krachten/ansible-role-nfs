@@ -15,8 +15,10 @@ galaxy_info:
         - 8
     - name: Debian
       versions:
+        - buster
         - bullseye
     - name: Ubuntu
       versions:
+        - 18.04
         - 20.04
 dependencies: []

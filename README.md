@@ -13,7 +13,9 @@ Supported platforms
 
 - CentOS 7
 - CentOS 8
-- Debian 11 (Bullseye)
+- RockyLinux 8
+- AlmaLinux 8
+- Debian 10 (Buster)
 - Ubuntu 20.04 LTS
 
 
@@ -45,9 +47,9 @@ nfs_v3: false
 nfs_v4: true
 
 # Ports to use to make NFS v4 work thgrough firewall
-nfs_statd_port: "32766"
-nfs_mountd_port: "32767"
-nfs_lockd_port: "32768"
+nfs_statd_port: 32766
+nfs_mountd_port: 32767
+nfs_lockd_port: 32768
 
 # List of NFS v3 ports
 nfs_v3_server_firewall_ports:
@@ -57,17 +59,17 @@ nfs_v3_server_firewall_ports:
     proto: tcp
   - port: '111'
     proto: udp
-  - port: "{{ nfs_statd_port }}"
+  - port: {{ nfs_statd_port }}
     proto: tcp
-  - port: "{{ nfs_statd_port }}"
+  - port: {{ nfs_statd_port }}
     proto: udp
-  - port: "{{ nfs_mountd_port }}"
+  - port: {{ nfs_mountd_port }}
     proto: tcp
-  - port: "{{ nfs_mountd_port }}"
+  - port: {{ nfs_mountd_port }}
     proto: udp
-  - port: "{{ nfs_lockd_port }}"
+  - port: {{ nfs_lockd_port }}
     proto: tcp
-  - port: "{{ nfs_lockd_port }}"
+  - port: {{ nfs_lockd_port }}
     proto: udp
 
 # List of NFS v4 ports
@@ -81,11 +83,11 @@ Example Playbook
 ----------------
 
 <pre><code>
-- name: Converge
+- name: sample playbook for role 'nfs'
   hosts: all
-  vars: null
+  vars:
   tasks:
-    - name: Include role 'ansible-role-nfs'
+    - name: Include role 'nfs'
       include_role:
-        name: ansible-role-nfs
+        name: nfs
 </pre></code>
