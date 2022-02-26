@@ -47,9 +47,9 @@ nfs_v3: false
 nfs_v4: true
 
 # Ports to use to make NFS v4 work thgrough firewall
-nfs_statd_port: 32766
-nfs_mountd_port: 32767
-nfs_lockd_port: 32768
+nfs_statd_port: "32766"
+nfs_mountd_port: "32767"
+nfs_lockd_port: "32768"
 
 # List of NFS v3 ports
 nfs_v3_server_firewall_ports:
@@ -59,17 +59,17 @@ nfs_v3_server_firewall_ports:
     proto: tcp
   - port: '111'
     proto: udp
-  - port: {{ nfs_statd_port }}
+  - port: "{{ nfs_statd_port }}"
     proto: tcp
-  - port: {{ nfs_statd_port }}
+  - port: "{{ nfs_statd_port }}"
     proto: udp
-  - port: {{ nfs_mountd_port }}
+  - port: "{{ nfs_mountd_port }}"
     proto: tcp
-  - port: {{ nfs_mountd_port }}
+  - port: "{{ nfs_mountd_port }}"
     proto: udp
-  - port: {{ nfs_lockd_port }}
+  - port: "{{ nfs_lockd_port }}"
     proto: tcp
-  - port: {{ nfs_lockd_port }}
+  - port: "{{ nfs_lockd_port }}"
     proto: udp
 
 # List of NFS v4 ports
