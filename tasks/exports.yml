@@ -16,7 +16,18 @@
   loop_control:
     label: "{{ item.item.path }}"
 
-- name: Setup all exports
+- name: Remove obsolete exports
+  lineinfile:
+    path: /etc/exports
+    state: absent
+    regexp: "^{{ item.path }} .*"
+    mode: "0644"
+  loop: "{{ nfs_exports }}"
+  when: item.state is defined and item.state == 'absent'
+  notify:
+    - Reload nfs
+
+- name: Configure all required exports
   lineinfile:
     path: /etc/exports
     line: "{{ item.path }} {% for client in item.clients %}{{ client }}({{ item.options }}) {% endfor %}"
@@ -24,6 +35,7 @@
     create: yes
     mode: "0644"
   loop: "{{ nfs_exports }}"
+  when: item.state is undefined or item.state != 'absent'
   notify:
     - Reload nfs
 

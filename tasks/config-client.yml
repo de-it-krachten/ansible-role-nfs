@@ -15,7 +15,7 @@
   loop: "{{ nfs_client_services_krb5|default([]) }}"
   when: nfs_krb5|bool
 
-- name: set selinux bool for using share as home dir
+- name: Set selinux bool for using share as home dir
   seboolean:
     name: use_nfs_home_dirs
     state: yes
@@ -24,13 +24,31 @@
     - ansible_os_family == 'RedHat'
     - nfs_home_dir|bool
 
+- name: Unmount shares we no longer need
+  mount:
+    path: '{{ item.target }}'
+    src: '{{ item.src }}'
+    fstype: nfs
+    opts: '{{ item.options }}'
+    state: absent
+  loop: "{{ nfs_mounts }}"
+  when: item.state is defined and item.state == 'absent'
+
+- name: Delete unwanted mountpoints
+  file:
+    path: "{{ item.target }}"
+    state: absent
+  loop: "{{ nfs_mounts }}"
+  when: item.state is defined and item.state == 'absent'
+
 - name: Get stat of all mountpoints
   stat:
     path: "{{ item.target }}"
   loop: "{{ nfs_mounts }}"
+  when: item.state is undefined or item.state != 'absent'
   register: _mp
 
-- name: Ensure mount path exists
+- name: Ensure desired mountpoints exist
   file:
     path: "{{ item.item.target }}"
     state: directory
@@ -47,5 +65,6 @@
     src: '{{ item.src }}'
     fstype: nfs
     opts: '{{ item.options }}'
-    state: mounted
+    state: "{{ item.state | default('mounted') }}"
   loop: "{{ nfs_mounts }}"
+  when: item.state is undefined or item.state != 'absent'
