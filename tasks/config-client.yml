@@ -24,6 +24,8 @@
     - ansible_os_family == 'RedHat'
     - nfs_home_dir|bool
 
+# NFS mount removal
+
 - name: Unmount shares we no longer need
   mount:
     path: '{{ item.target }}'
@@ -41,6 +43,9 @@
   loop: "{{ nfs_mounts }}"
   when: item.state is defined and item.state == 'absent'
 
+
+# NFS mount creation
+
 - name: Get stat of all mountpoints
   stat:
     path: "{{ item.target }}"
@@ -57,7 +62,9 @@
   loop_control:
     label:
       - "{{ item.item.target }}"
-  when: not item.stat.exists
+  when:
+    - item.state is undefined or item.state != 'absent'
+    - item.stat is defined and not item.stat.exists
 
 - name: Mount NFS shares
   mount:
