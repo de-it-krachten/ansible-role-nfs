@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.1.0...v1.1.1) (2022-04-02)
+
+
+### Bug Fixes
+
+* fix for issue with absent mounts ([98667d7](https://github.com/de-it-krachten/ansible-role-nfs/commit/98667d75e759e7298296e10ca1baffbb9b1da487))
+
 # [1.1.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.0.0...v1.1.0) (2022-03-21)
 
 
