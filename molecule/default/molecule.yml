@@ -9,7 +9,6 @@ lint: |
   yamllint .
   ansible-lint
 platforms:
-{% for platform in MOLECULE_DISTROS %}
   - name: nfs-server-${MOLECULE_DISTRO:-centos8}
     image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos8}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
@@ -26,7 +25,6 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
     pre_build_image: true
-{% endfor %}
 provisioner:
   name: ansible
   lint:
