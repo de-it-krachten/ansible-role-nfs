@@ -1,31 +1,29 @@
+---
+
 generic:
   role_description: |
     Install NFS server/client versions v3/v4
+
 ci_templates:
-  molecule.yml:
+  molecule.yml.j2:
     force: false
+
 github:
   fail_fast: false
+
 molecule:
-  platforms:
-    - centos7
-    - centos8
-    - rockylinux8
-    - debian11
-    - ubuntu2004
+  platforms_skip:
+    - debian10
+    - ubuntu1804
+    - ubuntu2204
   prepare:
     vars:
       prepare_firewall: true
-platforms:
-  - image: centos7
-    name: CentOS 7
-  - image: centos8
-    name: CentOS 8
-  - image: rockylinux8
-    name: RockyLinux 8
-  - image: almalinux8
-    name: AlmaLinux 8
-  - image: debian10
-    name: Debian 10 (Buster)
-  - image: ubuntu2004
-    name: Ubuntu 20.04 LTS
+
+platforms_skip:
+  - name: Ubuntu 18.04 LTS
+    image: ubuntu1804
+  - name: Debian 10 (Buster)
+    image: debian10
+  - name: Ubuntu 22.04 LTS
+    image: ubuntu2204
