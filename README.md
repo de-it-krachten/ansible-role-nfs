@@ -6,23 +6,24 @@
 Install NFS server/client versions v3/v4
 
 
-Platforms
---------------
+## Platforms
 
 Supported platforms
 
+- Red Hat Enterprise Linux 7<sup>1</sup>
+- Red Hat Enterprise Linux 8<sup>1</sup>
 - CentOS 7
-- CentOS 8
 - RockyLinux 8
-- AlmaLinux 8
-- Debian 10 (Buster)
+- AlmaLinux 8<sup>1</sup>
+- Debian 11 (Bullseye)
 - Ubuntu 20.04 LTS
+- Ubuntu 22.04 LTS
 
 Note:
 <sup>1</sup> : no automated testing is performed on these platforms
 
-Role Variables
---------------
+## Role Variables
+### defaults/main.yml
 <pre><code>
 # Install/confire NFS server
 nfs_server: false
@@ -79,10 +80,50 @@ nfs_v4_server_firewall_ports:
     proto: tcp
 </pre></code>
 
+### vars/Debian.yml
+<pre><code>
+nfs_server_packages:
+  - nfs-kernel-server
+  - procps
+nfs_server_packages_krb5:
+  - gssproxy
 
-Example Playbook
-----------------
+nfs_client_packages:
+  - nfs-common
 
+nfs_server_services:
+  - nfs-kernel-server
+nfs_server_services_krb5:
+  #- gssproxy
+  - rpc-gssd
+nfs_client_services_krb5:
+  - rpc-gssd
+</pre></code>
+
+### vars/RedHat.yml
+<pre><code>
+nfs_server_packages:
+  - nfs-utils
+nfs_server_packages_krb5:
+  - gssproxy
+nfs_client_packages:
+  - nfs-utils
+
+nfs_server_services:
+  - rpcbind
+  - nfs-server
+nfs_server_services_krb5:
+  - gssproxy
+  - rpc-gssd
+nfs_client_services_krb5:
+  - gssproxy
+  - rpc-gssd
+</pre></code>
+
+
+
+## Example Playbook
+### molecule/default/converge.yml
 <pre><code>
 - name: sample playbook for role 'nfs'
   hosts: all
