@@ -79,43 +79,61 @@ nfs_v4_server_firewall_ports:
     proto: tcp
 </pre></code>
 
-### vars/Debian.yml
+### vars/family-RedHat.yml
 <pre><code>
+# Server packages
 nfs_server_packages:
-  - nfs-kernel-server
-  - procps
+  - nfs-utils
+
+# Server packages for kerberos support
 nfs_server_packages_krb5:
   - gssproxy
 
-nfs_client_packages:
-  - nfs-common
-
-nfs_server_services:
-  - nfs-kernel-server
-nfs_server_services_krb5:
-  #- gssproxy
-  - rpc-gssd
-nfs_client_services_krb5:
-  - rpc-gssd
-</pre></code>
-
-### vars/RedHat.yml
-<pre><code>
-nfs_server_packages:
-  - nfs-utils
-nfs_server_packages_krb5:
-  - gssproxy
+# Client packages
 nfs_client_packages:
   - nfs-utils
 
+# Server services
 nfs_server_services:
   - rpcbind
   - nfs-server
+
+# Server services for kerberos support
 nfs_server_services_krb5:
   - gssproxy
   - rpc-gssd
+
+# Client services for kerberos support
 nfs_client_services_krb5:
   - gssproxy
+  - rpc-gssd
+</pre></code>
+
+### vars/family-Debian.yml
+<pre><code>
+# Server packages
+nfs_server_packages:
+  - nfs-kernel-server
+  - procps
+
+# Server packages for kerberos support
+nfs_server_packages_krb5:
+  - gssproxy
+
+# Client packages
+nfs_client_packages:
+  - nfs-common
+
+# Server services
+nfs_server_services:
+  - nfs-kernel-server
+
+# Server services for kerberos support
+nfs_server_services_krb5:
+  - rpc-gssd
+
+# Client services for kerberos support
+nfs_client_services_krb5:
   - rpc-gssd
 </pre></code>
 
