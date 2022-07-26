@@ -16,6 +16,7 @@ Supported platforms
 - CentOS 7
 - CentOS 8
 - RockyLinux 8
+- RockyLinux 9
 - OracleLinux 8
 - AlmaLinux 8
 - AlmaLinux 9
@@ -151,7 +152,7 @@ nfs_client_services_krb5:
 <pre><code>
 - name: sample playbook for role 'nfs'
   hosts: all
-  vars:
+  become: "{{ molecule['converge']['become'] | default('yes') }}"
   tasks:
     - name: Include role 'nfs'
       include_role:
