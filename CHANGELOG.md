@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.1.1...v1.2.0) (2022-07-28)
+
+
+### Features
+
+* Implement ansible-lint v6 support ([f6ee33f](https://github.com/de-it-krachten/ansible-role-nfs/commit/f6ee33f411ae80a858c9f473bd0eeeb74630fc4d))
+
 ## [1.1.1](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.1.0...v1.1.1) (2022-04-02)
 
 
