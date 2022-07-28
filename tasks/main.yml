@@ -23,13 +23,15 @@
     nfs_server_firewall_ports: "{{ nfs_v4_server_firewall_ports }}"
   when: not nfs_v3|bool
 
-- block:
+- name: NFS server
+  block:
     - include_tasks: install-server.yml
     - include_tasks: config-server-{{ ansible_os_family }}.yml
     - include_tasks: exports.yml
   when: nfs_server
 
-- block:
+- name: NFS client
+  block:
     - include_tasks: install-client.yml
     - include_tasks: config-client.yml
   when: nfs_client
