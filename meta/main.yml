@@ -17,10 +17,6 @@ galaxy_info:
     - name: Debian
       versions:
         - bullseye
-    - name: Ubuntu
-      versions:
-        - '20.04'
-        - '22.04'
     - name: Fedora
       versions:
         - all

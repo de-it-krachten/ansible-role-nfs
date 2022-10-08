@@ -1,13 +1,13 @@
 ---
 
 - name: Check for the status of all exports
-  stat:
+  ansible.builtin.stat:
     path: "{{ item.path }}"
   register: _export_paths
   loop: "{{ nfs_exports }}"
 
 - name: Create all directories to export
-  file:
+  ansible.builtin.file:
     path: "{{ item.item.path }}"
     state: directory
     mode: "0755"
@@ -17,7 +17,7 @@
     label: "{{ item.item.path }}"
 
 - name: Remove obsolete exports
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/exports
     state: absent
     regexp: "^{{ item.path }} .*"
@@ -28,7 +28,7 @@
     - Reload nfs
 
 - name: Configure all required exports
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/exports
     line: "{{ item.path }} {% for client in item.clients %}{{ client }}({{ item.options }}) {% endfor %}"
     regexp: "^{{ item.path }} .*"
@@ -40,4 +40,4 @@
     - Reload nfs
 
 - name: Flush handler
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
