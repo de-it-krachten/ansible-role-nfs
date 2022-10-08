@@ -17,6 +17,10 @@ galaxy_info:
     - name: Debian
       versions:
         - bullseye
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
     - name: Fedora
       versions:
         - all

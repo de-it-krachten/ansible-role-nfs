@@ -16,10 +16,10 @@
     name: nfs-kernel-server
     state: restarted
 
-#- name: Restart nfs-config
-#  service:
-#    name: nfs-config
-#    state: restarted
+# - name: Restart nfs-config
+#   service:
+#     name: nfs-config
+#     state: restarted
 
 - name: Restart mountd
   ansible.builtin.service:

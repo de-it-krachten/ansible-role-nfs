@@ -6,6 +6,16 @@
 Install NFS server/client versions v3/v4
 
 
+
+## Dependencies
+
+#### Roles
+None
+
+#### Collections
+- community.general
+- ansible.posix
+
 ## Platforms
 
 Supported platforms
@@ -14,7 +24,6 @@ Supported platforms
 - Red Hat Enterprise Linux 8<sup>1</sup>
 - Red Hat Enterprise Linux 9<sup>1</sup>
 - CentOS 7
-- CentOS 8
 - RockyLinux 8
 - RockyLinux 9
 - OracleLinux 8
@@ -87,6 +96,7 @@ nfs_v4_server_firewall_ports:
     proto: tcp
 </pre></code>
 
+
 ### vars/family-RedHat.yml
 <pre><code>
 # Server packages
@@ -155,6 +165,6 @@ nfs_client_services_krb5:
   become: "{{ molecule['converge']['become'] | default('yes') }}"
   tasks:
     - name: Include role 'nfs'
-      include_role:
+      ansible.builtin.include_role:
         name: nfs
 </pre></code>

@@ -35,14 +35,14 @@
       value: "{{ nfs_lockd_port }}"
   when: nfs_firewall | bool
 
-#- name: Configure NFS v3 to use static ports
-#  lineinfile:
-#    path: /etc/modprobe.d/options.conf
-#    regexp: "^options lockd.*"
-#    line: "options lockd nlm_udpport={{ nfs_lockd_port }} nlm_tcpport={{ nfs_lockdd_port }}"
-#  when: nfs_v3 | bool
-#  notify:
-#    - Restart nfs
+# - name: Configure NFS v3 to use static ports
+#   lineinfile:
+#     path: /etc/modprobe.d/options.conf
+#     regexp: "^options lockd.*"
+#     line: "options lockd nlm_udpport={{ nfs_lockd_port }} nlm_tcpport={{ nfs_lockdd_port }}"
+#   when: nfs_v3 | bool
+#   notify:
+#     - Restart nfs
 
 - name: Configure NFS v4 w/ kerberos
   ansible.builtin.lineinfile:
@@ -55,7 +55,7 @@
   ansible.builtin.include_role:
     name: firewall
   vars:
-    #firewalld_rules: "{{ nfs_server_firewall_ports }}"
+    # firewalld_rules: "{{ nfs_server_firewall_ports }}"
     firewall_ports: "{{ nfs_server_firewall_ports }}"
   when: nfs_firewall | bool
 
