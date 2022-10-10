@@ -1,33 +1,33 @@
 ---
 
 - name: Start/enable services
-  service:
+  ansible.builtin.service:
     name: "{{ item }}"
     state: started
     enabled: yes
-  loop: "{{ nfs_client_services|default([]) }}"
+  loop: "{{ nfs_client_services | default([]) }}"
 
 - name: Start/enable kerberos services
-  service:
+  ansible.builtin.service:
     name: "{{ item }}"
     state: started
     enabled: yes
-  loop: "{{ nfs_client_services_krb5|default([]) }}"
-  when: nfs_krb5|bool
+  loop: "{{ nfs_client_services_krb5 | default([]) }}"
+  when: nfs_krb5 | bool
 
 - name: Set selinux bool for using share as home dir
-  seboolean:
+  ansible.posix.seboolean:
     name: use_nfs_home_dirs
     state: yes
     persistent: yes
   when:
     - ansible_os_family == 'RedHat'
-    - nfs_home_dir|bool
+    - nfs_home_dir | bool
 
 # NFS mount removal
 
 - name: Unmount shares we no longer need
-  mount:
+  ansible.posix.mount:
     path: '{{ item.target }}'
     src: '{{ item.src }}'
     fstype: nfs
@@ -37,7 +37,7 @@
   when: item.state is defined and item.state == 'absent'
 
 - name: Delete unwanted mountpoints
-  file:
+  ansible.builtin.file:
     path: "{{ item.target }}"
     state: absent
   loop: "{{ nfs_mounts }}"
@@ -47,14 +47,14 @@
 # NFS mount creation
 
 - name: Get stat of all mountpoints
-  stat:
+  ansible.builtin.stat:
     path: "{{ item.target }}"
   loop: "{{ nfs_mounts }}"
   when: item.state is undefined or item.state != 'absent'
   register: _mp
 
 - name: Ensure desired mountpoints exist
-  file:
+  ansible.builtin.file:
     path: "{{ item.item.target }}"
     state: directory
     mode: "0755"
@@ -67,7 +67,7 @@
     - item.stat is defined and not item.stat.exists
 
 - name: Mount NFS shares
-  mount:
+  ansible.posix.mount:
     path: '{{ item.target }}'
     src: '{{ item.src }}'
     fstype: nfs

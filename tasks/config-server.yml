@@ -1,32 +1,32 @@
 ---
 
 - name: Configure NFS
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/default/nfs-kernel-server
-    line: "NEED_SVCGSSD={{ 'yes' if nfs_krb5|bool else 'no' }}"
+    line: "NEED_SVCGSSD={{ 'yes' if nfs_krb5 | bool else 'no' }}"
     regexp: "NEED_SVCGSSD=."
   notify: Restart nfs
   when:
     - ansible_os_family == 'Debian'
 
 - name: Open firewall ports
-  include_role:
+  ansible.builtin.include_role:
     name: firewall
   vars:
-    #firewalld_rules: "{{ nfs_server_firewall_ports }}"
+    # firewalld_rules: "{{ nfs_server_firewall_ports }}"
     firewall_ports: "{{ nfs_server_firewall_ports }}"
 
 - name: Start/enable services
-  service:
+  ansible.builtin.service:
     name: "{{ item }}"
     state: started
     enabled: yes
   loop: "{{ nfs_server_services }}"
 
 - name: Start/enable kerberos services
-  service:
+  ansible.builtin.service:
     name: "{{ item }}"
     state: started
     enabled: yes
   loop: "{{ nfs_server_services_krb5 }}"
-  when: nfs_krb5|bool
+  when: nfs_krb5 | bool

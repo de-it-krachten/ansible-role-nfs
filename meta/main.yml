@@ -19,8 +19,8 @@ galaxy_info:
         - bullseye
     - name: Ubuntu
       versions:
-        - '20.04'
-        - '22.04'
+        - focal
+        - jammy
     - name: Fedora
       versions:
         - all
