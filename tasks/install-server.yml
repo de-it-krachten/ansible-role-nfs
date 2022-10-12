@@ -1,19 +1,19 @@
 ---
 
 - name: Install NFS server packages
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   loop: "{{ nfs_server_packages }}"
 
 - name: Install NFS server with kerberos packages
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   loop: "{{ nfs_server_packages_krb5 }}"
 
 - name: Start services
-  service:
+  ansible.builtin.service:
     name: "{{ item }}"
     state: started
     enabled: yes

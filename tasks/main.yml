@@ -1,7 +1,7 @@
 ---
 
 - name: Load variables based on OS type
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files:
@@ -14,24 +14,29 @@
         - 'vars'
 
 - name: Combine firewall rules for v3 + v4
-  set_fact:
+  ansible.builtin.set_fact:
     nfs_server_firewall_ports: "{{ nfs_v3_server_firewall_ports + nfs_v4_server_firewall_ports }}"
-  when: nfs_v3|bool
+  when: nfs_v3 | bool
 
 - name: Use firewall rules v4 only
-  set_fact:
+  ansible.builtin.set_fact:
     nfs_server_firewall_ports: "{{ nfs_v4_server_firewall_ports }}"
-  when: not nfs_v3|bool
+  when: not nfs_v3 | bool
 
 - name: NFS server
-  block:
-    - include_tasks: install-server.yml
-    - include_tasks: config-server-{{ ansible_os_family }}.yml
-    - include_tasks: exports.yml
   when: nfs_server
+  block:
+    - name: Include install-server.yml
+      ansible.builtin.include_tasks: install-server.yml
+    - name: Include config-server-{{ ansible_os_family }}.yml  # noqa name[template]
+      ansible.builtin.include_tasks: config-server-{{ ansible_os_family }}.yml
+    - name: Include exports.yml
+      ansible.builtin.include_tasks: exports.yml
 
 - name: NFS client
-  block:
-    - include_tasks: install-client.yml
-    - include_tasks: config-client.yml
   when: nfs_client
+  block:
+    - name: Include install-client.yml
+      ansible.builtin.include_tasks: install-client.yml
+    - name: Include config-client.yml
+      ansible.builtin.include_tasks: config-client.yml

@@ -1,7 +1,7 @@
 ---
 
 - name: Configure NFS v3 to use static ports (mountd/rhel7)
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/sysconfig/nfs
     regexp: "^{{ item.key }}=.*"
     line: "{{ item.key }}=\"{{ item.value }}\""
@@ -10,23 +10,23 @@
   loop:
     - key: RPCMOUNTDOPTS
       value: "-p {{ nfs_mountd_port }}"
-  when: ansible_distribution_major_version|int == 7
+  when: ansible_distribution_major_version | int == 7
   notify:
     - Restart nfs-config
     - Restart nfs-server
 
 - name: Configure NFS v3 to use static ports (mountd/rhel8)
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/nfs.conf
     line: "port={{ nfs_mountd_port }}"
     insertafter: "\\[mountd\\]"
-  when: ansible_distribution_major_version|int >= 8
+  when: ansible_distribution_major_version | int >= 8
   notify:
     - Restart nfs-config
     - Restart nfs-server
 
 - name: Configure NFS v3 to use static ports
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/modprobe.d/lockd.conf
     regexp: "options lockd {{ item.key }}"
     line: "options lockd {{ item.key }}={{ item.value }}"
@@ -40,27 +40,27 @@
     - Restart nfs-server
 
 - name: Open firewall ports
-  include_role:
-    name: firewall 
+  ansible.builtin.include_role:
+    name: firewall
   vars:
-    #firewalld_rules: "{{ nfs_server_firewall_ports }}"
+    # firewalld_rules: "{{ nfs_server_firewall_ports }}"
     firewall_ports: "{{ nfs_server_firewall_ports }}"
-  when: nfs_firewall|bool
+  when: nfs_firewall | bool
 
 - name: Start/enable services
-  service:
+  ansible.builtin.service:
     name: "{{ item }}"
     state: started
     enabled: yes
   loop: "{{ nfs_server_services }}"
 
 - name: Start/enable kerberos services
-  service:
+  ansible.builtin.service:
     name: "{{ item }}"
     state: started
     enabled: yes
   loop: "{{ nfs_server_services_krb5 }}"
-  when: nfs_krb5|bool
+  when: nfs_krb5 | bool
 
 - name: Flush handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
