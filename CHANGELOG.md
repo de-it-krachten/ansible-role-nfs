@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.2.0...v1.3.0) (2022-10-12)
+
+
+### Features
+
+* Move to FQCN ([a93bc05](https://github.com/de-it-krachten/ansible-role-nfs/commit/a93bc05b22ec5311f61c793c1733748107748a6e))
+* Update CI to latest standards ([fa0716a](https://github.com/de-it-krachten/ansible-role-nfs/commit/fa0716ab9023bc10c6a8a2de2c22ea58f7af7be3))
+
 # [1.2.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.1.1...v1.2.0) (2022-07-28)
 
 
