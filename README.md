@@ -27,6 +27,7 @@ Supported platforms
 - RockyLinux 8
 - RockyLinux 9
 - OracleLinux 8
+- OracleLinux 9
 - AlmaLinux 8
 - AlmaLinux 9
 - Debian 11 (Bullseye)
@@ -55,6 +56,9 @@ nfs_firewall: true
 
 # List of NFS mount
 nfs_mounts: []
+
+# Exclude this mount if this string is found in the source name/ip 
+nfs_mount_exclude: DUMMY
 
 # Enable the use of home directories located on remote NFS exports
 # This will set the appropiate SELinux boolean
@@ -162,7 +166,7 @@ nfs_client_services_krb5:
 <pre><code>
 - name: sample playbook for role 'nfs'
   hosts: all
-  become: "{{ molecule['converge']['become'] | default('yes') }}"
+  become: "yes"
   tasks:
     - name: Include role 'nfs'
       ansible.builtin.include_role:

@@ -50,7 +50,9 @@
   ansible.builtin.stat:
     path: "{{ item.target }}"
   loop: "{{ nfs_mounts }}"
-  when: item.state is undefined or item.state != 'absent'
+  when:
+    - nfs_mount_exclude is undefined or item.src is not search(nfs_mount_exclude)
+    - item.state is undefined or item.state != 'absent'
   register: _mp
 
 - name: Ensure desired mountpoints exist
@@ -74,4 +76,6 @@
     opts: '{{ item.options }}'
     state: "{{ item.state | default('mounted') }}"
   loop: "{{ nfs_mounts }}"
-  when: item.state is undefined or item.state != 'absent'
+  when:
+    - nfs_mount_exclude is undefined or item.src is not search(nfs_mount_exclude)
+    - item.state is undefined or item.state != 'absent'
