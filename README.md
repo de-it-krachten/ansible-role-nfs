@@ -57,7 +57,7 @@ nfs_firewall: true
 # List of NFS mount
 nfs_mounts: []
 
-# Exclude this mount if this string is found in the source name/ip 
+# Exclude this mount if this string is found in the source name/ip
 nfs_mount_exclude: DUMMY
 
 # Enable the use of home directories located on remote NFS exports

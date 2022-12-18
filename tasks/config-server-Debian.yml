@@ -29,9 +29,9 @@
     name: "{{ item.name }}"
     value: "{{ item.value }}"
   loop:
-    - name: Fs.nfs.nlm_tcpport
+    - name: fs.nfs.nlm_tcpport
       value: "{{ nfs_lockd_port }}"
-    - name: Fs.nfs.nlm_udpport
+    - name: fs.nfs.nlm_udpport
       value: "{{ nfs_lockd_port }}"
   when: nfs_firewall | bool
 
