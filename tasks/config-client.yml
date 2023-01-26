@@ -68,7 +68,7 @@
     - item.state is undefined or item.state != 'absent'
     - item.stat is defined and not item.stat.exists
 
-- name: Mount NFS shares
+- name: Mount NFS shares  # noqa args[module]
   ansible.posix.mount:
     path: '{{ item.target }}'
     src: '{{ item.src }}'
