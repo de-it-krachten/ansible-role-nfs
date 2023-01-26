@@ -41,7 +41,7 @@
 
 - name: Open firewall ports
   ansible.builtin.include_role:
-    name: firewall
+    name: deitkrachten.firewall
   vars:
     # firewalld_rules: "{{ nfs_server_firewall_ports }}"
     firewall_ports: "{{ nfs_server_firewall_ports }}"
