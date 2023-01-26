@@ -12,10 +12,10 @@ platforms:
   ubuntu1804:
     ci: false
     supported: false
-  fedora35:
+  fedora36:
     ci: true
     supported: true
-  fedora36:
+  fedora37:
     ci: true
     supported: true
 
