@@ -37,6 +37,7 @@
       - almalinux9
     systemctl_alternative: False
     prepare_firewall: True
+    register_hosts: True
   roles:
     - deitkrachten.showinfo
     - deitkrachten.facts
@@ -69,6 +70,7 @@
           http_proxy: "{{ http_proxy }}"
           no_proxy: "{{ no_proxy }}"
           prepare_firewall: "{{ prepare_firewall | default(False) }}"
+          register_hosts: "{{ register_hosts | default(False) }}"
           update_all: "{{ update_all | default(False) }}"
           activate_epel: "{{ activate_epel | default(False) }}"
           install_python: "{{ install_python | default(False) }}"

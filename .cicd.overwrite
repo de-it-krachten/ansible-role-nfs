@@ -19,11 +19,21 @@ platforms:
     ci: true
     supported: true
 
+# Molecule
 molecule:
+  driver: docker
+  nodes:
+    - name: server
+      groups: ['nfs_servers']
+      volumes:
+        - /export/test:/export/test:rw
+    - name: client
+      groups: ['nfs_clients']
   prepare:
     vars:
       prepare_firewall: true
+      register_hosts: true
 
 ci_templates:
-  molecule.yml.j2:
+  converge.yml:
     force: false

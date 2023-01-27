@@ -26,7 +26,7 @@ nfs_home_dir: false
 nfs_v3: false
 nfs_v4: true
 
-# Ports to use to make NFS v4 work thgrough firewall
+# Ports to use to make NFS v3 work through firewall
 nfs_statd_port: "32766"
 nfs_mountd_port: "32767"
 nfs_lockd_port: "32768"

@@ -68,7 +68,7 @@ nfs_home_dir: false
 nfs_v3: false
 nfs_v4: true
 
-# Ports to use to make NFS v4 work thgrough firewall
+# Ports to use to make NFS v3 work through firewall
 nfs_statd_port: "32766"
 nfs_mountd_port: "32767"
 nfs_lockd_port: "32768"
@@ -166,9 +166,36 @@ nfs_client_services_krb5:
 <pre><code>
 - name: sample playbook for role 'nfs'
   hosts: all
-  become: "yes"
+  become: true
+  vars:
+    nfs_v3: true
+    nfs_v4: false
+    __nfs_server: "{{ groups['nfs_servers'] | first }}"
+    __nfs_client: "{{ groups['nfs_clients'] | first }}"
+    export_path: /export/test
   tasks:
-    - name: Include role 'nfs'
+
+    - name: Create path to export
+      ansible.builtin.file:
+        path: "{{ export_path }}"
+        state: directory
+        mode: "0755"
+
+    - name: Setup NFS server
       ansible.builtin.include_role:
         name: nfs
+      vars:
+        nfs_server: true
+        nfs_exports:
+          - { path: "{{ export_path }}", clients: "{{ [ hostvars[__nfs_client]['ansible_default_ipv4']['address'] ] }}", options: 'rw,sync,no_root_squash' }
+      when: inventory_hostname in groups['nfs_servers']
+
+    - name: Setup NFS client
+      ansible.builtin.include_role:
+        name: nfs
+      vars:
+        nfs_server: false
+        nfs_mounts:
+          - { src: "{{ hostvars[__nfs_server]['ansible_default_ipv4']['address'] }}:{{ export_path }}", target: /mnt, type: 'nfs', options: 'rw,sync' }
+      when: inventory_hostname in groups['nfs_clients']
 </pre></code>
