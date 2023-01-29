@@ -5,7 +5,8 @@
     path: /etc/default/nfs-kernel-server
     regexp: "^{{ item.key }}=.*"
     line: "{{ item.key }}=\"{{ item.value }}\""
-  when: nfs_v3 | bool
+  when:
+    - nfs_v3 | bool
   loop:
     - key: RPCMOUNTDOPTS
       value: "--manage-gids -p {{ nfs_mountd_port }}"
@@ -17,7 +18,8 @@
     path: /etc/default/nfs-common
     regexp: "^{{ item.key }}=.*"
     line: "{{ item.key }}=\"{{ item.value }}\""
-  when: nfs_v3 | bool
+  when:
+    - nfs_v3 | bool
   loop:
     - key: STATDOPTS
       value: "--port {{ nfs_statd_port }}"
@@ -33,7 +35,9 @@
       value: "{{ nfs_lockd_port }}"
     - name: fs.nfs.nlm_udpport
       value: "{{ nfs_lockd_port }}"
-  when: nfs_firewall | bool
+  when:
+    - nfs_v3 | bool
+    - nfs_firewall | bool
 
 # - name: Configure NFS v3 to use static ports
 #   lineinfile:
