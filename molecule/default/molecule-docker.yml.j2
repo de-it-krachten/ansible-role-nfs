@@ -14,6 +14,12 @@ platforms:
 {% for platform in MOLECULE_DISTROS %}
   - name: nfs-{{ platform.name }}-server
     image: "{{ platform.image }}"
+{% if platform.kernel_memory is defined %}
+    kernel_memory: {{ platform.kernel_memory }}
+{% endif %}
+{% if platform.memory is defined %}
+    memory: {{ platform.memory }}
+{% endif %}
     rhsm: {{ platform.rhsm | default(False) }}
     command: ${MOLECULE_DOCKER_COMMAND:-""}
 {% if platform.environment is defined %}
@@ -23,14 +29,11 @@ platforms:
 {% endfor %}
 {% endif %}
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+{% for volume in platform.volumes %}
+      - {{ volume }}
+{% endfor %}
       - /export/test:/export/test:rw
 
-{% if platform.volumes is defined %}
-{% for volume in platform.volumes %}
-      - nfs-{{ volume }}
-{% endfor %}
-{% endif %}
 {% if platform.networks is defined %}
     networks:
 {% for network in platform.networks %}
@@ -43,13 +46,21 @@ platforms:
       - {{ port }}
 {% endfor %}
 {% endif %}
-    cgroupns_mode: host
+{% if platform.cgroupns_mode is defined %}
+    cgroupns_mode: {{ platform.cgroupns_mode }}
+{% endif %}
     privileged: {{ platform.privileged | default(True) }}
     pre_build_image: {{ platform.pre_build_image | default(True) }}
     dockerfile: Dockerfile.{{ platform.name }}.j2
     groups: ['nfs_servers']
   - name: nfs-{{ platform.name }}-client
     image: "{{ platform.image }}"
+{% if platform.kernel_memory is defined %}
+    kernel_memory: {{ platform.kernel_memory }}
+{% endif %}
+{% if platform.memory is defined %}
+    memory: {{ platform.memory }}
+{% endif %}
     rhsm: {{ platform.rhsm | default(False) }}
     command: ${MOLECULE_DOCKER_COMMAND:-""}
 {% if platform.environment is defined %}
@@ -59,12 +70,9 @@ platforms:
 {% endfor %}
 {% endif %}
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:rw
-{% if platform.volumes is defined %}
 {% for volume in platform.volumes %}
-      - nfs-{{ volume }}
+      - {{ volume }}
 {% endfor %}
-{% endif %}
 {% if platform.networks is defined %}
     networks:
 {% for network in platform.networks %}
@@ -77,7 +85,9 @@ platforms:
       - {{ port }}
 {% endfor %}
 {% endif %}
-    cgroupns_mode: host
+{% if platform.cgroupns_mode is defined %}
+    cgroupns_mode: {{ platform.cgroupns_mode }}
+{% endif %}
     privileged: {{ platform.privileged | default(True) }}
     pre_build_image: {{ platform.pre_build_image | default(True) }}
     dockerfile: Dockerfile.{{ platform.name }}.j2

@@ -12,6 +12,9 @@ platforms:
   ubuntu1804:
     ci: false
     supported: false
+  ubuntu2204:
+    ci: false
+    supported: false
   fedora36:
     ci: true
     supported: true
@@ -21,14 +24,21 @@ platforms:
 
 # Molecule
 molecule:
-  driver: docker
+  #driver: docker
+  driver: vagrant
   nodes:
     - name: server
       groups: ['nfs_servers']
       volumes:
         - /export/test:/export/test:rw
+      interfaces:
+        - network_name: private_network
+          ip: 192.168.56.100
     - name: client
       groups: ['nfs_clients']
+      interfaces:
+        - network_name: private_network
+          ip: 192.168.56.101
   prepare:
     vars:
       prepare_firewall: true

@@ -3,12 +3,20 @@
 - name: Converge
   hosts: all
   become: true
+  tasks:
+
+- name: Converge
+  hosts: nfs_servers
+  become: true
   vars:
-    nfs_v3: true
-    nfs_v4: false
+    # nfs_v3: true
+    # nfs_v4: false
+    nfs_v3: false
+    nfs_v4: true
     __nfs_server: "{{ groups['nfs_servers'] | first }}"
     __nfs_client: "{{ groups['nfs_clients'] | first }}"
     export_path: /export/test
+    clients: "{{ [ ( inventory_hostname | regex_replace('-server', '-client')) ] }}"
   tasks:
 
     - name: Create path to export
@@ -23,8 +31,21 @@
       vars:
         nfs_server: true
         nfs_exports:
-          - { path: "{{ export_path }}", clients: "{{ [ hostvars[__nfs_client]['ansible_default_ipv4']['address'] ] }}", options: 'rw,sync,no_root_squash' }
-      when: inventory_hostname in groups['nfs_servers']
+          - { path: "{{ export_path }}", clients: "{{ clients }}", options: 'rw,sync,no_root_squash' }
+
+- name: Converge
+  hosts: nfs_clients
+  become: true
+  vars:
+    # nfs_v3: true
+    # nfs_v4: false
+    nfs_v3: false
+    nfs_v4: true
+    __nfs_server: "{{ groups['nfs_servers'] | first }}"
+    __nfs_client: "{{ groups['nfs_clients'] | first }}"
+    export_path: /export/test
+    server: "{{ ( inventory_hostname | regex_replace('-client', '-server')) }}"
+  tasks:
 
     - name: Setup NFS client
       ansible.builtin.include_role:
@@ -32,5 +53,4 @@
       vars:
         nfs_server: false
         nfs_mounts:
-          - { src: "{{ hostvars[__nfs_server]['ansible_default_ipv4']['address'] }}:{{ export_path }}", target: /mnt, type: 'nfs', options: 'rw,sync' }
-      when: inventory_hostname in groups['nfs_clients']
+          - { src: "{{ server }}:{{ export_path }}", target: /mnt, type: 'nfs', options: 'rw,sync' }

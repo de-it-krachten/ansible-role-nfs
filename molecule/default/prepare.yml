@@ -237,6 +237,9 @@
     - name: Install python
       ansible.builtin.include_role:
         name: deitkrachten.python
+      vars:
+        python38: false
+        python_package_install_optional: true
       when: install_python is defined and install_python | bool
 
     - name: Firewall
@@ -278,4 +281,5 @@
             name: deitkrachten.hosts
           vars:
             hosts_mode: hosts
+            hosts_adapter: "{{ 'eth1' if molecule_driver == 'vagrant' else 'default' }}"
 
