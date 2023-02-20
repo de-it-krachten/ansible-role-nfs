@@ -306,6 +306,8 @@ jobs:
           else
             pip3 install "${{ matrix.ansible }}" "${{ matrix.ansible_lint }}" molecule[docker] yamllint jmespath e2j2 yq
           fi
+        env:
+          MOLECULE_DRIVER: ${{ secrets.MOLECULE_DRIVER }}
 
       - name: Retrieve & install wrapper scripts
         run: |
@@ -355,3 +357,4 @@ jobs:
           MOLECULE_DISTRO: ${{ matrix.distro }}
           MOLECULE_PLAYBOOK: ${{ matrix.playbook }}
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+          MOLECULE_DRIVER: ${{ secrets.MOLECULE_DRIVER }}
