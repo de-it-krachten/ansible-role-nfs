@@ -295,6 +295,8 @@ jobs:
       - name: Install test dependencies.
         run: |
           sudo rm -f /usr/bin/yq
+          echo "MOLECULE_DRIVER = $MOLECULE_DRIVER"
+          echo "MOLECULE_DRIVER = ${{ env.MOLECULE_DRIVER }}"
           if [[ $MOLECULE_DRIVER == 'hetznercloud' ]] ; then
             pip3 install "${{ matrix.ansible }}" "${{ matrix.ansible_lint }}" molecule-hetznercloud yamllint jmespath e2j2 yq
           elif [[ $MOLECULE_DRIVER == 'vagrant' ]] ; then
