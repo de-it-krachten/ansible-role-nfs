@@ -1,42 +1,34 @@
 ---
 
-- name: Load variables based on OS type
-  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
-  vars:
-    params:
-      files:
-        - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-        - "{{ ansible_distribution }}.yml"
-        - "family-{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
-        - "family-{{ ansible_os_family }}.yml"
-        - default.yml
-      paths:
-        - 'vars'
-
-- name: Combine firewall rules for v3 + v4
+- name: Clear platform variables
   ansible.builtin.set_fact:
-    nfs_server_firewall_ports: "{{ nfs_v3_server_firewall_ports + nfs_v4_server_firewall_ports }}"
-  when: nfs_v3 | bool
+    __defaults_search_order:
+      - "defaults/{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml"
+      - "defaults/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+      - "defaults/{{ ansible_distribution }}.yml"
+      - "defaults/family-{{ ansible_os_family }}-{{ ansible_distribution_version }}.yml"
+      - "defaults/family-{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
+      - "defaults/family-{{ ansible_os_family }}.yml"
 
-- name: Use firewall rules v4 only
+- name: Select the appropiate variable file
   ansible.builtin.set_fact:
-    nfs_server_firewall_ports: "{{ nfs_v4_server_firewall_ports }}"
-  when: not nfs_v3 | bool
+    __defaults_vars: "{{ item }}"
+  with_first_found: "{{ __defaults_search_order }}"
 
-- name: NFS server
-  when: nfs_server
-  block:
-    - name: Include install-server.yml
-      ansible.builtin.include_tasks: install-server.yml
-    - name: Include config-server-{{ ansible_os_family }}.yml  # noqa name[template]
-      ansible.builtin.include_tasks: config-server-{{ ansible_os_family }}.yml
-    - name: Include exports.yml
-      ansible.builtin.include_tasks: exports.yml
+- name: Create list and dict of all hosts  # noqa var-spacing
+  ansible.builtin.set_fact:
+    __defaults_files_list: >-
+      {{ (__defaults_files_list | default([])) + [{'name': inventory_hostname, 'defaults': hostvars[item]['__defaults_vars']}] }}
+    __defaults_files_dict: >-
+      {{ __defaults_files_dict | default({}) | combine({item: {'defaults': hostvars[item]['__defaults_vars']}}) }}
+  loop: "{{ ansible_play_hosts }}"
 
-- name: NFS client
-  when: nfs_client
-  block:
-    - name: Include install-client.yml
-      ansible.builtin.include_tasks: install-client.yml
-    - name: Include config-client.yml
-      ansible.builtin.include_tasks: config-client.yml
+- name: Execute role again using selected defaults  # noqa jinja[invalid]
+  ansible.builtin.include_role:
+    name: "{{ role_name }}"
+    defaults_from: "{{ defaults }}"
+    tasks_from: "main1.yml"
+  loop: "{{ __defaults_files_list | json_query('[].defaults') | unique }}"
+  loop_control:
+    loop_var: defaults
+  when: defaults == __defaults_files_dict[inventory_hostname]['defaults']

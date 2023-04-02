@@ -54,5 +54,36 @@ nfs_v3_server_firewall_ports:
 
 # List of NFS v4 ports
 nfs_v4_server_firewall_ports:
-  - port: '2049'
+  - service: 'nfs'
     proto: tcp
+  - service: 'mountd'
+    proto: tcp
+  - service: 'rpc-bind'
+    proto: tcp
+
+# Server packages
+nfs_server_packages:
+  - nfs-utils
+
+# Server packages for kerberos support
+nfs_server_packages_krb5:
+  - gssproxy
+
+# Client packages
+nfs_client_packages:
+  - nfs-utils
+
+# Server services
+nfs_server_services:
+  - rpcbind
+  - nfs-server
+
+# Server services for kerberos support
+nfs_server_services_krb5:
+  - gssproxy
+  - rpc-gssd
+
+# Client services for kerberos support
+nfs_client_services_krb5:
+  - gssproxy
+  - rpc-gssd
