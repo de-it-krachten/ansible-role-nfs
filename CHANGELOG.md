@@ -1,3 +1,18 @@
+# [1.4.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.3.0...v1.4.0) (2023-04-03)
+
+
+### Bug Fixes
+
+* Change code in favour of earlier OS defaults ([73f1e77](https://github.com/de-it-krachten/ansible-role-nfs/commit/73f1e7727cf8a0ba790a4c99b1b8c03eaba543e0))
+* Fixed mistake with sysctl names ([71d539b](https://github.com/de-it-krachten/ansible-role-nfs/commit/71d539bf2149e501aae9355f87648e663677beb9))
+
+
+### Features
+
+* Add optional method of not mounting NFS shares ([279d5ca](https://github.com/de-it-krachten/ansible-role-nfs/commit/279d5ca4ef3dfb49333b303117f61f34b04c98cc))
+* Move defaults into new format w/ wrapper ([12db36a](https://github.com/de-it-krachten/ansible-role-nfs/commit/12db36a3859d50aaaa654fa2ccd923522b9a032b))
+* Move to namespaced role names ([88c7d22](https://github.com/de-it-krachten/ansible-role-nfs/commit/88c7d22c1a43f92f3602ca0632aeb36d888ded75))
+
 # [1.3.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.2.0...v1.3.0) (2022-10-12)
 
 
