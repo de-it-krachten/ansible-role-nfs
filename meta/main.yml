@@ -16,11 +16,12 @@ galaxy_info:
         - '9'
     - name: Debian
       versions:
+        - buster
         - bullseye
     - name: Ubuntu
       versions:
+        - bionic
         - focal
-        - jammy
     - name: Fedora
       versions:
         - all

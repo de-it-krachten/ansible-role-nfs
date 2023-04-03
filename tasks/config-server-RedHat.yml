@@ -10,7 +10,9 @@
   loop:
     - key: RPCMOUNTDOPTS
       value: "-p {{ nfs_mountd_port }}"
-  when: ansible_distribution_major_version | int == 7
+  when:
+    - ansible_distribution_major_version | int == 7
+    - nfs_v3 | bool
   notify:
     - Restart nfs-config
     - Restart nfs-server
@@ -20,7 +22,9 @@
     path: /etc/nfs.conf
     line: "port={{ nfs_mountd_port }}"
     insertafter: "\\[mountd\\]"
-  when: ansible_distribution_major_version | int >= 8
+  when:
+    - ansible_distribution_major_version | int >= 8
+    - nfs_v3 | bool
   notify:
     - Restart nfs-config
     - Restart nfs-server
@@ -38,10 +42,12 @@
   notify:
     - Restart nfs-config
     - Restart nfs-server
+  when:
+    - nfs_v3 | bool
 
 - name: Open firewall ports
   ansible.builtin.include_role:
-    name: firewall
+    name: deitkrachten.firewall
   vars:
     # firewalld_rules: "{{ nfs_server_firewall_ports }}"
     firewall_ports: "{{ nfs_server_firewall_ports }}"

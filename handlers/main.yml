@@ -28,3 +28,4 @@
 
 - name: Reload nfs
   ansible.builtin.command: exportfs -ra
+  changed_when: true

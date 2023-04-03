@@ -1,17 +1,7 @@
 ---
 
-- name: Load variables based on OS type
-  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
-  vars:
-    params:
-      files:
-        - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-        - "{{ ansible_distribution }}.yml"
-        - "family-{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
-        - "family-{{ ansible_os_family }}.yml"
-        - default.yml
-      paths:
-        - 'vars'
+- name: Load OS specfic variables
+  ansible.builtin.include_tasks: vars.yml
 
 - name: Combine firewall rules for v3 + v4
   ansible.builtin.set_fact:
@@ -24,7 +14,7 @@
   when: not nfs_v3 | bool
 
 - name: NFS server
-  when: nfs_server
+  when: nfs_server | bool
   block:
     - name: Include install-server.yml
       ansible.builtin.include_tasks: install-server.yml
@@ -34,7 +24,7 @@
       ansible.builtin.include_tasks: exports.yml
 
 - name: NFS client
-  when: nfs_client
+  when: nfs_client | bool
   block:
     - name: Include install-client.yml
       ansible.builtin.include_tasks: install-client.yml
