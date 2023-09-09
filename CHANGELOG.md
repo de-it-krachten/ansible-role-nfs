@@ -1,3 +1,15 @@
+# [1.5.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.4.0...v1.5.0) (2023-09-09)
+
+
+### Bug Fixes
+
+* Fix loop label to string ([1cdf4b8](https://github.com/de-it-krachten/ansible-role-nfs/commit/1cdf4b8fb30040c6dd11763ad7b8e476c7078ded))
+
+
+### Features
+
+* Update supported platforms & CI ([f74d6a1](https://github.com/de-it-krachten/ansible-role-nfs/commit/f74d6a1b27ef92a90d9a5bcc0f7e70f55006df8f))
+
 # [1.4.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.3.0...v1.4.0) (2023-04-03)
 
 
