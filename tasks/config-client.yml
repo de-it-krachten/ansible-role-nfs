@@ -62,8 +62,7 @@
     mode: "0755"
   loop: "{{ _mp.results }}"
   loop_control:
-    label:
-      - "{{ item.item.target }}"
+    label: "{{ item.item.target }}"
   when:
     - item.state is undefined or item.state != 'absent'
     - item.stat is defined and not item.stat.exists

@@ -13,7 +13,6 @@ Install NFS server/client versions v3/v4
 None
 
 #### Collections
-- community.general
 - ansible.posix
 
 ## Platforms
@@ -380,55 +379,52 @@ nfs_client_services_krb5:
 - name: sample playbook for role 'nfs'
   hosts: all
   become: true
-  tasks:
-
+  tasks: null
 - name: sample playbook for role 'nfs'
   hosts: nfs_servers
   become: true
   vars:
-    # nfs_v3: true
-    # nfs_v4: false
     nfs_v3: false
     nfs_v4: true
-    __nfs_server: "{{ groups['nfs_servers'] | first }}"
-    __nfs_client: "{{ groups['nfs_clients'] | first }}"
+    __nfs_server: '{{ groups[''nfs_servers''] | first }}'
+    __nfs_client: '{{ groups[''nfs_clients''] | first }}'
     export_path: /export/test
-    clients: "{{ [ ( inventory_hostname | regex_replace('-server', '-client')) ] }}"
+    clients: '{{ [ ( inventory_hostname | regex_replace(''-server'', ''-client''))
+      ] }}'
   tasks:
-
     - name: Create path to export
       ansible.builtin.file:
-        path: "{{ export_path }}"
+        path: '{{ export_path }}'
         state: directory
-        mode: "0755"
-
+        mode: '0755'
     - name: Setup NFS server
       ansible.builtin.include_role:
         name: nfs
       vars:
         nfs_server: true
         nfs_exports:
-          - { path: "{{ export_path }}", clients: "{{ clients }}", options: 'rw,sync,no_root_squash' }
-
+          - path: '{{ export_path }}'
+            clients: '{{ clients }}'
+            options: rw,sync,no_root_squash
 - name: sample playbook for role 'nfs'
   hosts: nfs_clients
   become: true
   vars:
-    # nfs_v3: true
-    # nfs_v4: false
     nfs_v3: false
     nfs_v4: true
-    __nfs_server: "{{ groups['nfs_servers'] | first }}"
-    __nfs_client: "{{ groups['nfs_clients'] | first }}"
+    __nfs_server: '{{ groups[''nfs_servers''] | first }}'
+    __nfs_client: '{{ groups[''nfs_clients''] | first }}'
     export_path: /export/test
-    server: "{{ ( inventory_hostname | regex_replace('-client', '-server')) }}"
+    server: '{{ ( inventory_hostname | regex_replace(''-client'', ''-server'')) }}'
   tasks:
-
     - name: Setup NFS client
       ansible.builtin.include_role:
         name: nfs
       vars:
         nfs_server: false
         nfs_mounts:
-          - { src: "{{ server }}:{{ export_path }}", target: /mnt, type: 'nfs', options: 'rw,sync' }
+          - src: '{{ server }}:{{ export_path }}'
+            target: /mnt
+            type: nfs
+            options: rw,sync
 </pre></code>
