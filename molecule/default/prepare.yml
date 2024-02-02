@@ -305,6 +305,7 @@
               - openssh-server
               - openssh-clients
               - iproute
+              - glibc-langpack-en
             state: present
 
         - name: Install extra packages
@@ -359,6 +360,7 @@
               - openssh-server
               - openssh-clients
               - iproute
+              - glibc-langpack-en
             state: present
 
         - name: Activate epel repository
@@ -368,6 +370,20 @@
             - activate_epel is defined
             - activate_epel | bool
             - ansible_distribution != 'Fedora'
+
+     - name: Show locales
+       when: show_locales is defined and show_locales | bool
+       block:
+
+        - name: Get locales
+          ansible.builtin.command:
+            cmd: locale -a
+          changed_when: false
+          register: __locale
+
+        - name: Show available locale
+          ansible.builtin.debug:
+          var: __locale.stdout_lines
 
     - name: Install python
       ansible.builtin.include_role:

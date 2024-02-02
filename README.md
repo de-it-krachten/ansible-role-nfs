@@ -13,7 +13,7 @@ Install NFS server/client versions v3/v4
 None
 
 #### Collections
-- ansible.posix
+- {'name': 'ansible.posix'}
 
 ## Platforms
 
@@ -103,7 +103,7 @@ nfs_v4_server_firewall_ports:
     proto: tcp
 </pre></code>
 
-### defaults/family-Debian.yml
+### defaults/family-RedHat.yml
 <pre><code>
 # Install/confire NFS server
 nfs_server: false
@@ -159,13 +159,16 @@ nfs_v3_server_firewall_ports:
 
 # List of NFS v4 ports
 nfs_v4_server_firewall_ports:
-  - port: '2049'
-    proto: 'tcp'
+  - service: 'nfs'
+    proto: tcp
+  - service: 'mountd'
+    proto: tcp
+  - service: 'rpc-bind'
+    proto: tcp
 
 # Server packages
 nfs_server_packages:
-  - nfs-kernel-server
-  - procps
+  - nfs-utils
 
 # Server packages for kerberos support
 nfs_server_packages_krb5:
@@ -173,18 +176,21 @@ nfs_server_packages_krb5:
 
 # Client packages
 nfs_client_packages:
-  - nfs-common
+  - nfs-utils
 
 # Server services
 nfs_server_services:
-  - nfs-kernel-server
+  - rpcbind
+  - nfs-server
 
 # Server services for kerberos support
 nfs_server_services_krb5:
+  - gssproxy
   - rpc-gssd
 
 # Client services for kerberos support
 nfs_client_services_krb5:
+  - gssproxy
   - rpc-gssd
 </pre></code>
 
@@ -279,7 +285,7 @@ nfs_client_services_krb5:
   - rpc-gssd
 </pre></code>
 
-### defaults/family-RedHat.yml
+### defaults/family-Debian.yml
 <pre><code>
 # Install/confire NFS server
 nfs_server: false
@@ -335,16 +341,13 @@ nfs_v3_server_firewall_ports:
 
 # List of NFS v4 ports
 nfs_v4_server_firewall_ports:
-  - service: 'nfs'
-    proto: tcp
-  - service: 'mountd'
-    proto: tcp
-  - service: 'rpc-bind'
-    proto: tcp
+  - port: '2049'
+    proto: 'tcp'
 
 # Server packages
 nfs_server_packages:
-  - nfs-utils
+  - nfs-kernel-server
+  - procps
 
 # Server packages for kerberos support
 nfs_server_packages_krb5:
@@ -352,21 +355,18 @@ nfs_server_packages_krb5:
 
 # Client packages
 nfs_client_packages:
-  - nfs-utils
+  - nfs-common
 
 # Server services
 nfs_server_services:
-  - rpcbind
-  - nfs-server
+  - nfs-kernel-server
 
 # Server services for kerberos support
 nfs_server_services_krb5:
-  - gssproxy
   - rpc-gssd
 
 # Client services for kerberos support
 nfs_client_services_krb5:
-  - gssproxy
   - rpc-gssd
 </pre></code>
 
