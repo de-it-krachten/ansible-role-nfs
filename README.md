@@ -402,10 +402,25 @@ nfs_client_services_krb5:
         name: nfs
       vars:
         nfs_server: true
+        nfs_exports: []
+    - name: Setup NFS server
+      ansible.builtin.include_role:
+        name: nfs
+      vars:
+        nfs_server: true
         nfs_exports:
           - path: '{{ export_path }}'
             clients: '{{ clients }}'
             options: rw,sync,no_root_squash
+    - name: Setup NFS server
+      ansible.builtin.include_role:
+        name: nfs
+      vars:
+        nfs_server: true
+        nfs_exports: []
+    - name: Xxx
+      ansible.builtin.fail:
+        msg: xxx
 - name: sample playbook for role 'nfs'
   hosts: nfs_clients
   become: true

@@ -12,7 +12,10 @@ nfs_krb5: false
 # Open firewall ports
 nfs_firewall: true
 
-# List of NFS mount
+# List of NFS exports to share on server
+nfs_exports: []
+
+# List of NFS mount to setup on clients
 nfs_mounts: []
 
 # Exclude this mount if this string is found in the source name/ip
