@@ -12,11 +12,17 @@ nfs_krb5: false
 # Open firewall ports
 nfs_firewall: true
 
-# List of NFS mount
+# List of NFS exports to share on server
+nfs_exports: []
+
+# List of NFS mount to setup on clients
 nfs_mounts: []
 
 # Exclude this mount if this string is found in the source name/ip
 nfs_mount_exclude: DUMMY
+
+# Only perform NFS mount removals on clients
+nfs_umount_only: false
 
 # Enable the use of home directories located on remote NFS exports
 # This will set the appropiate SELinux boolean

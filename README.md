@@ -13,7 +13,7 @@ Install NFS server/client versions v3/v4
 None
 
 #### Collections
-- {'name': 'ansible.posix'}
+- ansible.posix
 
 ## Platforms
 
@@ -32,7 +32,7 @@ Supported platforms
 - SUSE Linux Enterprise 15<sup>1</sup>
 - Debian 10 (Buster)<sup>1</sup>
 - Debian 11 (Bullseye)<sup>1</sup>
-- Debian 12 (Bookworm)
+- Debian 12 (Bookworm)<sup>1</sup>
 - Ubuntu 18.04 LTS<sup>1</sup>
 - Ubuntu 20.04 LTS<sup>1</sup>
 - Ubuntu 22.04 LTS<sup>1</sup>
@@ -57,11 +57,17 @@ nfs_krb5: false
 # Open firewall ports
 nfs_firewall: true
 
-# List of NFS mount
+# List of NFS exports to share on server
+nfs_exports: []
+
+# List of NFS mount to setup on clients
 nfs_mounts: []
 
 # Exclude this mount if this string is found in the source name/ip
 nfs_mount_exclude: DUMMY
+
+# Only perform NFS mount removals on clients
+nfs_umount_only: false
 
 # Enable the use of home directories located on remote NFS exports
 # This will set the appropiate SELinux boolean
@@ -402,10 +408,22 @@ nfs_client_services_krb5:
         name: nfs
       vars:
         nfs_server: true
+        nfs_exports: []
+    - name: Setup NFS server
+      ansible.builtin.include_role:
+        name: nfs
+      vars:
+        nfs_server: true
         nfs_exports:
           - path: '{{ export_path }}'
             clients: '{{ clients }}'
             options: rw,sync,no_root_squash
+    - name: Setup NFS server
+      ansible.builtin.include_role:
+        name: nfs
+      vars:
+        nfs_server: true
+        nfs_exports: []
 - name: sample playbook for role 'nfs'
   hosts: nfs_clients
   become: true

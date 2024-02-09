@@ -45,36 +45,39 @@
 
 
 # NFS mount creation
+- name: Mount all
+  when: not nfs_umount_only | bool
+  block:
 
-- name: Get stat of all mountpoints
-  ansible.builtin.stat:
-    path: "{{ item.target }}"
-  loop: "{{ nfs_mounts }}"
-  when:
-    - nfs_mount_exclude is undefined or item.src is not search(nfs_mount_exclude)
-    - item.state is undefined or item.state != 'absent'
-  register: _mp
+    - name: Get stat of all mountpoints
+      ansible.builtin.stat:
+        path: "{{ item.target }}"
+      loop: "{{ nfs_mounts }}"
+      when:
+        - nfs_mount_exclude is undefined or item.src is not search(nfs_mount_exclude)
+        - item.state is undefined or item.state != 'absent'
+      register: _mp
 
-- name: Ensure desired mountpoints exist
-  ansible.builtin.file:
-    path: "{{ item.item.target }}"
-    state: directory
-    mode: "0755"
-  loop: "{{ _mp.results }}"
-  loop_control:
-    label: "{{ item.item.target }}"
-  when:
-    - item.state is undefined or item.state != 'absent'
-    - item.stat is defined and not item.stat.exists
+    - name: Ensure desired mountpoints exist
+      ansible.builtin.file:
+        path: "{{ item.item.target }}"
+        state: directory
+        mode: "0755"
+      loop: "{{ _mp.results }}"
+      loop_control:
+        label: "{{ item.item.target }}"
+      when:
+        - item.state is undefined or item.state != 'absent'
+        - item.stat is defined and not item.stat.exists
 
-- name: Mount NFS shares  # noqa args[module]
-  ansible.posix.mount:
-    path: '{{ item.target }}'
-    src: '{{ item.src }}'
-    fstype: nfs
-    opts: '{{ item.options }}'
-    state: "{{ item.state | default('mounted') }}"
-  loop: "{{ nfs_mounts }}"
-  when:
-    - nfs_mount_exclude is undefined or item.src is not search(nfs_mount_exclude)
-    - item.state is undefined or item.state != 'absent'
+    - name: Mount NFS shares  # noqa args[module]
+      ansible.posix.mount:
+        path: '{{ item.target }}'
+        src: '{{ item.src }}'
+        fstype: nfs
+        opts: '{{ item.options }}'
+        state: "{{ item.state | default('mounted') }}"
+      loop: "{{ nfs_mounts }}"
+      when:
+        - nfs_mount_exclude is undefined or item.src is not search(nfs_mount_exclude)
+        - item.state is undefined or item.state != 'absent'

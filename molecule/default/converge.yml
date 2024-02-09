@@ -30,8 +30,22 @@
         name: ansible-role-nfs
       vars:
         nfs_server: true
+        nfs_exports: []
+
+    - name: Setup NFS server
+      ansible.builtin.include_role:
+        name: ansible-role-nfs
+      vars:
+        nfs_server: true
         nfs_exports:
           - { path: "{{ export_path }}", clients: "{{ clients }}", options: 'rw,sync,no_root_squash' }
+
+    - name: Setup NFS server
+      ansible.builtin.include_role:
+        name: ansible-role-nfs
+      vars:
+        nfs_server: true
+        nfs_exports: []
 
 - name: Converge
   hosts: nfs_clients
