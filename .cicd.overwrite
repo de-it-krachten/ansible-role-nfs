@@ -15,6 +15,9 @@ platforms:
   debian11:
     ci: false
     supported: true
+  debian12:
+    ci: false
+    supported: true
   opensuse15:
     ci: false
     supported: false
