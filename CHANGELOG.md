@@ -1,3 +1,16 @@
+# [1.6.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.5.0...v1.6.0) (2024-04-12)
+
+
+### Bug Fixes
+
+* Change loop/label for latest ansible ([7100e4b](https://github.com/de-it-krachten/ansible-role-nfs/commit/7100e4b6c2e113846789f817443f2e6e31dc2367))
+* Fix for correctly resolving default vars ([7364f32](https://github.com/de-it-krachten/ansible-role-nfs/commit/7364f32fd645ec43ad419e28245e9ce9fa0bfb44))
+
+
+### Features
+
+* Add optional removal of NFS mount only ([cea012a](https://github.com/de-it-krachten/ansible-role-nfs/commit/cea012a683755e8fa9aca7465c012b700bb96c28))
+
 # [1.5.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.4.0...v1.5.0) (2023-09-09)
 
 
