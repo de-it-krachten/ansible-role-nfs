@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.6.0...v1.7.0) (2024-06-03)
+
+
+### Features
+
+* Add support for Ubuntu 24.04 LTS + Fedora 40 ([6ea51ad](https://github.com/de-it-krachten/ansible-role-nfs/commit/6ea51adbc0e71e4e2f6e5525a78d3da9f602c705))
+
 # [1.6.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.5.0...v1.6.0) (2024-04-12)
 
 
