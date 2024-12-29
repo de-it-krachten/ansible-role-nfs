@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.7.0...v1.8.0) (2024-12-29)
+
+
+### Features
+
+* Update supported platforms & CI ([553b7c8](https://github.com/de-it-krachten/ansible-role-nfs/commit/553b7c8f03623fc5563f6ac25e6461d35f013478))
+
 # [1.7.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.6.0...v1.7.0) (2024-06-03)
 
 
