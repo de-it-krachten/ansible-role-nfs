@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.8.0...v1.9.0) (2025-03-14)
+
+
+### Features
+
+* Add NFS v4 ACL tools ([154610e](https://github.com/de-it-krachten/ansible-role-nfs/commit/154610ea7f7ce5b17933a7ff1e7793f732b98d61))
+
 # [1.8.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.7.0...v1.8.0) (2024-12-29)
 
 
