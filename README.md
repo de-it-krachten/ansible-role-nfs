@@ -172,6 +172,7 @@ nfs_v4_server_firewall_ports:
 nfs_server_packages:
   - nfs-kernel-server
   - procps
+  - nfs4-acl-tools
 
 # Server packages for kerberos support
 nfs_server_packages_krb5:
@@ -180,6 +181,7 @@ nfs_server_packages_krb5:
 # Client packages
 nfs_client_packages:
   - nfs-common
+  - nfs4-acl-tools
 
 # Server services
 nfs_server_services:
@@ -260,6 +262,7 @@ nfs_v4_server_firewall_ports:
 # Server packages
 nfs_server_packages:
   - nfs-utils
+  - nfs4-acl-tools
 
 # Server packages for kerberos support
 nfs_server_packages_krb5:
@@ -268,6 +271,7 @@ nfs_server_packages_krb5:
 # Client packages
 nfs_client_packages:
   - nfs-utils
+  - nfs4-acl-tools
 
 # Server services
 nfs_server_services:
@@ -351,6 +355,7 @@ nfs_v4_server_firewall_ports:
 # Server packages
 nfs_server_packages:
   - nfs-kernel-server
+  - nfs4-acl-tools
 
 # Server packages for kerberos support
 nfs_server_packages_krb5:
@@ -359,6 +364,7 @@ nfs_server_packages_krb5:
 # Client packages
 nfs_client_packages:
   - nfs-client
+  - nfs4-acl-tools
 
 # Server services
 nfs_server_services:
