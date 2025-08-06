@@ -1,3 +1,14 @@
+# [1.10.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.9.0...v1.10.0) (2025-08-06)
+
+
+### Features
+
+* Add support for AlmaLinux 10 ([c866c3a](https://github.com/de-it-krachten/ansible-role-nfs/commit/c866c3a5330fe76b4853c3762ce5948dc67de8f2))
+* Add support for Debian 13 (Trixie) ([7629892](https://github.com/de-it-krachten/ansible-role-nfs/commit/762989266954531293e9177dccd8069df761d6ec))
+* Add support for OracleLinux 10 ([ae02997](https://github.com/de-it-krachten/ansible-role-nfs/commit/ae029978a043f87322af0ad24614107bc54e9acd))
+* Add support for Red Hat Enterprise Linux 10 ([458313c](https://github.com/de-it-krachten/ansible-role-nfs/commit/458313cbae7b169d5450424909ab703790190c43))
+* Add support for RockyLinux 10 ([83219e7](https://github.com/de-it-krachten/ansible-role-nfs/commit/83219e7f2ba9cad16345160af4190673b492b7ed))
+
 # [1.9.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.8.0...v1.9.0) (2025-03-14)
 
 
