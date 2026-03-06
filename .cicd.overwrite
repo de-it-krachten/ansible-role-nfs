@@ -7,27 +7,28 @@ generic:
 # Supported platforms
 platforms:
   centos7:
-    ci: false
     supported: true
-  debian10:
     ci: false
+  sles15:
     supported: true
+    ci: false
+  sles16:
+    supported: true
+    ci: false
   debian11:
-    ci: false
     supported: true
+    ci: false
   debian12:
-    ci: false
     supported: true
-  opensuse15:
     ci: false
-    supported: false
   ubuntu1804:
-    ci: false
     supported: true
+    ci: false
   ubuntu2004:
-    ci: false
     supported: true
+    ci: false
   ubuntu2204:
+    supported: true
     ci: false
 
 # Molecule

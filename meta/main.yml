@@ -15,12 +15,11 @@ galaxy_info:
         - '9'
         - '10'
         - '7'
-    - name: opensuse
+    - name: SLES
       versions:
         - all
     - name: Debian
       versions:
-        - buster
         - bullseye
         - bookworm
         - trixie
@@ -31,5 +30,6 @@ galaxy_info:
         - jammy
     - name: Fedora
       versions:
-        - all
+        - '42'
+        - '43'
 dependencies: []
