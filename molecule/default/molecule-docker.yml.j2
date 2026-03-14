@@ -34,6 +34,12 @@ platforms:
 {% for platform in MOLECULE_DISTROS %}
   - name: nfs-{{ platform.name }}-server
     image: "{{ platform.image }}"
+{% if platform.cap_add is defined %}
+    cap_add:
+{% for cap in platform.cap_add %}
+      - {{ cap }}
+{% endfor %}
+{% endif %}
 {% if platform.kernel_memory is defined %}
     kernel_memory: {{ platform.kernel_memory }}
 {% endif %}
@@ -75,6 +81,12 @@ platforms:
     groups: ['nfs_servers']
   - name: nfs-{{ platform.name }}-client
     image: "{{ platform.image }}"
+{% if platform.cap_add is defined %}
+    cap_add:
+{% for cap in platform.cap_add %}
+      - {{ cap }}
+{% endfor %}
+{% endif %}
 {% if platform.kernel_memory is defined %}
     kernel_memory: {{ platform.kernel_memory }}
 {% endif %}
