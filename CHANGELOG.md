@@ -1,3 +1,13 @@
+# [1.11.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.10.0...v1.11.0) (2026-03-15)
+
+
+### Features
+
+* Added support for Fedora 43 ([3a9f942](https://github.com/de-it-krachten/ansible-role-nfs/commit/3a9f942c9d36c32aaa7cd8490b14fd891e1b67a5))
+* Drop support for Debian 10 (Buster) ([4561829](https://github.com/de-it-krachten/ansible-role-nfs/commit/456182988d45467376b2953d4614927256c17ab4))
+* Drop support for Fedora 41 ([96d2bb0](https://github.com/de-it-krachten/ansible-role-nfs/commit/96d2bb0991dfeaed55fc4d837506fcc2dc30383a))
+* Drop support for SUSE Linux Enterprise 15 ([2c230c1](https://github.com/de-it-krachten/ansible-role-nfs/commit/2c230c124d65f19ab91f80971fab3c5a2e3d7a64))
+
 # [1.10.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.9.0...v1.10.0) (2025-08-06)
 
 
