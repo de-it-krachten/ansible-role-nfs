@@ -32,8 +32,6 @@ Supported platforms
 - AlmaLinux 8
 - AlmaLinux 9
 - AlmaLinux 10
-- SUSE Linux Enterprise 15<sup>1</sup>
-- Debian 10 (Buster)<sup>1</sup>
 - Debian 11 (Bullseye)<sup>1</sup>
 - Debian 12 (Bookworm)<sup>1</sup>
 - Debian 13 (Trixie)
@@ -41,11 +39,12 @@ Supported platforms
 - Ubuntu 20.04 LTS<sup>1</sup>
 - Ubuntu 22.04 LTS<sup>1</sup>
 - Ubuntu 24.04 LTS
-- Fedora 41
 - Fedora 42
+- Fedora 43
 
 Note:
 <sup>1</sup> : no automated testing is performed on these platforms
+
 
 ## Role Variables
 ### defaults/main.yml
