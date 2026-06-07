@@ -1,5 +1,4 @@
 ---
-
 galaxy_info:
   role_name: nfs
   namespace: de_it_krachten
@@ -27,6 +26,5 @@ galaxy_info:
         - jammy
     - name: Fedora
       versions:
-        - '42'
-        - '43'
+        - all
 dependencies: []
