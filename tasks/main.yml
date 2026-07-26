@@ -24,8 +24,8 @@
   block:
     - name: Include install-server.yml
       ansible.builtin.include_tasks: install-server.yml
-    - name: Include config-server-{{ ansible_os_family }}.yml  # noqa name[template]
-      ansible.builtin.include_tasks: config-server-{{ ansible_os_family }}.yml
+    - name: Include config-server-{{ ansible_facts.os_family }}.yml  # noqa name[template]
+      ansible.builtin.include_tasks: config-server-{{ ansible_facts.os_family }}.yml
     - name: Include exports.yml
       ansible.builtin.include_tasks: exports.yml
 

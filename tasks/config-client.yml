@@ -21,7 +21,7 @@
     state: yes
     persistent: yes
   when:
-    - ansible_os_family == 'RedHat'
+    - ansible_facts.os_family == 'RedHat'
     - nfs_home_dir | bool
 
 # NFS mount removal
