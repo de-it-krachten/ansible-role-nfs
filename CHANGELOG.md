@@ -1,3 +1,18 @@
+# [1.12.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.11.0...v1.12.0) (2026-07-26)
+
+
+### Bug Fixes
+
+* Standarize vars.yml ([d7a5fe9](https://github.com/de-it-krachten/ansible-role-nfs/commit/d7a5fe9be9abcb6b2ce74f00a5e2e6a7fc99563c))
+
+
+### Features
+
+* Add support for ansible-core 2.20+ ([4f6a5f3](https://github.com/de-it-krachten/ansible-role-nfs/commit/4f6a5f3fca6be8bc1c378a1a3f960b60831b5ae7))
+* Added support for Fedora 44 ([709e4a3](https://github.com/de-it-krachten/ansible-role-nfs/commit/709e4a339708a05ddb682119d640bc84866885c2))
+* Added support for Ubuntu 26.04 LTS ([ff62b67](https://github.com/de-it-krachten/ansible-role-nfs/commit/ff62b67a7137b16dbed9a98ead004b0461b7ba52))
+* Drop support for Fedora 42 ([597d6cb](https://github.com/de-it-krachten/ansible-role-nfs/commit/597d6cb5c0fa500cf4a35a0e6f6850d47c20359b))
+
 # [1.11.0](https://github.com/de-it-krachten/ansible-role-nfs/compare/v1.10.0...v1.11.0) (2026-03-15)
 
 
