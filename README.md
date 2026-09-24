@@ -190,7 +190,8 @@ nfs_client_packages:
 
 # Server services
 nfs_server_services:
-  - nfs-kernel-server
+  - rpcbind
+  - nfs-server
 
 # Server services for kerberos support
 nfs_server_services_krb5:
