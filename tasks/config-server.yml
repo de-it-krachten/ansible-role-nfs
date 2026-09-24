@@ -17,16 +17,18 @@
     firewall_ports: "{{ nfs_server_firewall_ports }}"
 
 - name: Start/enable services
-  ansible.builtin.service:
+  ansible.builtin.systemd_service:
     name: "{{ item }}"
     state: started
-    enabled: yes
+    enabled: true
+    masked: false
   loop: "{{ nfs_server_services }}"
 
 - name: Start/enable kerberos services
-  ansible.builtin.service:
+  ansible.builtin.systemd_service:
     name: "{{ item }}"
     state: started
-    enabled: yes
+    enabled: true
+    masked: false
   loop: "{{ nfs_server_services_krb5 }}"
   when: nfs_krb5 | bool

@@ -1,17 +1,19 @@
 ---
 
 - name: Start/enable services
-  ansible.builtin.service:
+  ansible.builtin.systemd_service:
     name: "{{ item }}"
     state: started
-    enabled: yes
+    enabled: true
+    masked: false
   loop: "{{ nfs_client_services | default([]) }}"
 
 - name: Start/enable kerberos services
-  ansible.builtin.service:
+  ansible.builtin.systemd_service:
     name: "{{ item }}"
     state: started
-    enabled: yes
+    enabled: true
+    masked: false
   loop: "{{ nfs_client_services_krb5 | default([]) }}"
   when: nfs_krb5 | bool
 
