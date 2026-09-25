@@ -22,6 +22,7 @@
     state: started
     enabled: true
     masked: false
+    daemon_reload: true
   loop: "{{ nfs_server_services }}"
 
 - name: Start/enable kerberos services
@@ -30,5 +31,6 @@
     state: started
     enabled: true
     masked: false
+    daemon_reload: true
   loop: "{{ nfs_server_services_krb5 }}"
   when: nfs_krb5 | bool
