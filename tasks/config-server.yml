@@ -23,6 +23,7 @@
       [Unit]
       After=nfs-server.service
       Requires=nfs-server.service
+    mode: "0644"
   loop: "{{ nfs_server_mounts | default([]) }}"
   notify: Reload systemd
 
